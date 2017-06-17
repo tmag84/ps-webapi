@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PS_project.Utils.Exceptions.DuplicateUserException" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\Exceptions\DuplicateUserException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.Exceptions.InternalDBException" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\Exceptions\InternalDBException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.Exceptions.InvalidLoginException" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\Exceptions\InvalidLoginException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.Exceptions.PS_Exception" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\Exceptions\PS_Exception.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Controllers.ProviderController">
+    <Position X="7" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAAAAoAAAAAAgAAAIEAAABAAAAAIAQAAAAAAA=</HashCode>
+      <FileName>Controllers\ProviderController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_User">
+    <Position X="13.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAEAgAAAAAAAAAAQAAAAIAEAAAAAAAAkA=</HashCode>
+      <FileName>Utils\DB\DB_User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_Gets">
+    <Position X="16.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAA0AAAAAAAAAAAAIAEIAAAAAAAAAIAEAAEAAAACEA=</HashCode>
+      <FileName>Utils\DB\DB_Gets.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Web.Http.ApiController" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PS_project.Controllers.UserController">
+    <Position X="9" Y="2" Width="1.5" />
+    <InheritanceLine Type="System.Web.Http.ApiController" FixedFromPoint="true">
+      <Path>
+        <Point X="8.75" Y="1.062" />
+        <Point X="8.75" Y="1.625" />
+        <Point X="9.75" Y="1.625" />
+        <Point X="9.75" Y="2" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAgAAAAAAAAAAQAAAAAAAAAEACAAAgE=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_Config">
+    <Position X="22" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\DB\DB_Config.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_Creates">
+    <Position X="15" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAEAQAAAAAAAIAAAAAABAI=</HashCode>
+      <FileName>Utils\DB\DB_Creates.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_Deletes">
+    <Position X="18.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAgAAAEAAAA=</HashCode>
+      <FileName>Utils\DB\DB_Deletes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_Provider">
+    <Position X="11.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAUAgQAAAoAAQAAAgAIAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Utils\DB\DB_Provider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.DB.DB_Updates">
+    <Position X="20.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\DB\DB_Updates.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
