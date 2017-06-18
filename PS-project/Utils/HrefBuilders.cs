@@ -28,7 +28,7 @@ namespace PS_project.Utils
 
         public static void BuildSubscriptionsHrefs(UriMaker<UserController> uriMaker, UserResponseModel user_info)
         {
-            foreach(ServiceModel service in user_info.subscriptions)
+            foreach(ServiceModel service in user_info.services)
             {
                 service.subscribed = true;
                 service.Links.Add(new Link("remove-subscription",uriMaker.UriFor(c => c.RemoveSubscription(user_info.user_email,service.id)).AbsoluteUri));
@@ -40,7 +40,7 @@ namespace PS_project.Utils
         {
             foreach (ServiceModel service in services)
             {
-                foreach(ServiceModel serv in user_info.subscriptions)
+                foreach(ServiceModel serv in user_info.services)
                 {
                     if (serv.id == service.id)
                     {

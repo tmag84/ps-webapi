@@ -104,7 +104,7 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
                     UserResponseModel resp = new UserResponseModel();
-                    resp.subscriptions = DB_Gets.GetSubscribedServices(con, user_email);
+                    resp.services = DB_Gets.GetSubscribedServices(con, user_email);
                     resp.list_service_types = DB_Gets.GetServiceTypes(con);
                     return resp;
                 }

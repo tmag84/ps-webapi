@@ -77,9 +77,14 @@ namespace PS_project.Controllers
             {
                 List<int> list_types = new List<int>() { type };
                 UserResponseModel user_info = DB_User.GetSubscribedServices(email);
-                List<ServiceModel> list_services = DB_User.GetServicesByTypes(list_types);
-                HrefBuilders.BuildSearchServicesHrefs(uriMaker, list_services, user_info);
-                resp = Request.CreateResponse<List<ServiceModel>>(HttpStatusCode.OK, list_services);
+
+                UserResponseModel user_hal = new UserResponseModel();
+                user_hal.user_email = email;
+                user_hal.list_service_types = DB_Provider.GetServiceTypes();
+                user_hal.services = DB_User.GetServicesByTypes(list_types);
+                HrefBuilders.BuildSearchServicesHrefs(uriMaker, user_hal.services, user_info);              
+
+                resp = Request.CreateResponse<UserResponseModel>(HttpStatusCode.OK, user_hal);
             }
             catch (PS_Exception e)
             {
