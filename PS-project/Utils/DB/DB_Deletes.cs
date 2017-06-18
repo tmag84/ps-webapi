@@ -58,7 +58,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool DeleteSubscription(SqlConnection con, SubscriptionModel sub)
+        public static bool DeleteSubscription(SqlConnection con, string email, int id)
         {
             try
             {
@@ -67,11 +67,11 @@ namespace PS_project.Utils.DB
                     cmd.CommandText = "delete from Subscriber where service_id=@serv_id and user_email=@email";
 
                     SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
-                    param_serv_id.Value = sub.service_id;
+                    param_serv_id.Value = id;
                     cmd.Parameters.Add(param_serv_id);
 
                     SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
-                    param_email.Value = sub.user_email;
+                    param_email.Value = email;
                     cmd.Parameters.Add(param_email);                    
 
                     cmd.ExecuteReader();

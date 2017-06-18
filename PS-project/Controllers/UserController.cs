@@ -16,23 +16,23 @@ namespace PS_project.Controllers
     public class UserController : ApiController
     {
         [HttpGet, Route("login")]
-        public HttpResponseMessage LoginUser(UsersModel user)
+        public HttpResponseMessage LoginUser(string email, string password)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                DB_User.UserLogin(user);
-                UserResponseModel user_hal = DB_User.GetSubscribedServices(user.email);
-                user_hal.user_email = user.email;
-                user_hal.Href = uriMaker.UriFor(c => c.GetUserSubscriptions(user.email)).AbsolutePath;
+                DB_User.UserLogin(email, password);
+                UserResponseModel user_hal = DB_User.GetSubscribedServices(email);
+                user_hal.user_email = email;
+                user_hal.Href = uriMaker.UriFor(c => c.GetUserSubscriptions(email)).AbsolutePath;
                 HrefBuilders.BuildSubscriptionsHrefs(uriMaker, user_hal);
                 resp = Request.CreateResponse<UserResponseModel>(HttpStatusCode.OK, user_hal);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.LoginUser(user)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.LoginUser(email,password)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -43,22 +43,22 @@ namespace PS_project.Controllers
         }
 
         [HttpGet, Route("subscriptions")]
-        public HttpResponseMessage GetUserSubscriptions(string user_email)
+        public HttpResponseMessage GetUserSubscriptions(string email)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                UserResponseModel user_hal = DB_User.GetSubscribedServices(user_email);
-                user_hal.user_email = user_email;
-                user_hal.Href = uriMaker.UriFor(c => c.GetUserSubscriptions(user_email)).AbsolutePath;
+                UserResponseModel user_hal = DB_User.GetSubscribedServices(email);
+                user_hal.user_email = email;
+                user_hal.Href = uriMaker.UriFor(c => c.GetUserSubscriptions(email)).AbsolutePath;
                 HrefBuilders.BuildSubscriptionsHrefs(uriMaker, user_hal);
                 resp = Request.CreateResponse<UserResponseModel>(HttpStatusCode.OK, user_hal);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.GetUserSubscriptions(user_email)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.GetUserSubscriptions(email)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -69,14 +69,14 @@ namespace PS_project.Controllers
         }
 
         [HttpGet, Route("search-by-type")]
-        public HttpResponseMessage SearchServicesByType(SearchModel search)
+        public HttpResponseMessage SearchServicesByType(string email, int type)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                List<int> list_types = new List<int>() { search.service_type };
-                UserResponseModel user_info = DB_User.GetSubscribedServices(search.user_email);
+                List<int> list_types = new List<int>() { type };
+                UserResponseModel user_info = DB_User.GetSubscribedServices(email);
                 List<ServiceModel> list_services = DB_User.GetServicesByTypes(list_types);
                 HrefBuilders.BuildSearchServicesHrefs(uriMaker, list_services, user_info);
                 resp = Request.CreateResponse<List<ServiceModel>>(HttpStatusCode.OK, list_services);
@@ -84,7 +84,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.SearchServicesByType(search)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.SearchServicesByType(email,type)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -95,21 +95,22 @@ namespace PS_project.Controllers
         }
 
         [HttpGet, Route("search-by-preferences")]
-        public HttpResponseMessage SearchServicesByPreferences(SearchModel search)
+        public HttpResponseMessage SearchServicesByPreferences(string email, [FromUri]int[] service_types)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
-            {                
-                List<ServiceModel> list_services = DB_User.GetServicesByTypes(search.list_types);
-                UserResponseModel user_info = DB_User.GetSubscribedServices(search.user_email);
+            {
+                List<int> list_types = new List<int>(service_types);
+                List<ServiceModel> list_services = DB_User.GetServicesByTypes(list_types);
+                UserResponseModel user_info = DB_User.GetSubscribedServices(email);
                 HrefBuilders.BuildSearchServicesHrefs(uriMaker, list_services, user_info);
                 resp = Request.CreateResponse<List<ServiceModel>>(HttpStatusCode.OK, list_services);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.SearchServicesByPreferences(search)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.SearchServicesByPreferences(email,service_types)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -166,19 +167,19 @@ namespace PS_project.Controllers
         }
 
         [HttpPost, Route("add-subscription")]
-        public HttpResponseMessage AddSubscription(SubscriptionModel sub)
+        public HttpResponseMessage AddSubscription(string email, int id)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                DB_User.AddSubscription(sub);
+                DB_User.AddSubscription(email,id);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.AddSubscription(sub)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.AddSubscription(email, id)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -189,19 +190,19 @@ namespace PS_project.Controllers
         }
 
         [HttpPost, Route("remove-subscription")]
-        public HttpResponseMessage RemoveSubscription(SubscriptionModel sub)
+        public HttpResponseMessage RemoveSubscription(string email, int id)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                DB_User.RemoveSubscription(sub);
+                DB_User.RemoveSubscription(email,id);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.RemoveSubscription(sub)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.RemoveSubscription(email, id)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),

@@ -7,7 +7,7 @@ namespace PS_project.Utils.DB
 {
     public class DB_User
     {
-        public static bool UserLogin(UsersModel user)
+        public static bool UserLogin(string email, string password)
         {
             try
             {
@@ -16,8 +16,8 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
 
-                    UsersModel u = DB_Gets.GetUser(con, user.email);
-                    if (u == null || !u.password.Equals(user.password))
+                    UsersModel u = DB_Gets.GetUser(con, email);
+                    if (u == null || !u.password.Equals(password))
                     {
                         throw new InvalidLoginException("Invalid username/password");
                     }
@@ -150,7 +150,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool AddSubscription(SubscriptionModel sub)
+        public static bool AddSubscription(string email, int id)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace PS_project.Utils.DB
                 {
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
-                    DB_Creates.CreateSubscription(con, sub);
+                    DB_Creates.CreateSubscription(con, email,id);
                     return true;
                 }
             }
@@ -168,7 +168,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool RemoveSubscription(SubscriptionModel sub)
+        public static bool RemoveSubscription(string email, int id)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace PS_project.Utils.DB
                 {
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
-                    DB_Deletes.DeleteSubscription(con, sub);
+                    DB_Deletes.DeleteSubscription(con, email,id);
                     return true;
                 }
             }

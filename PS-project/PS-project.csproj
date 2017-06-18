@@ -144,10 +144,8 @@
     <Compile Include="Models\ProviderResponseModel.cs" />
     <Compile Include="Models\RankingModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="Models\ServiceTypeModel.cs" />
-    <Compile Include="Models\SubscriptionModel.cs" />
     <Compile Include="Models\UserRegistrationModel.cs" />
     <Compile Include="Models\UserResponseModel.cs" />
     <Compile Include="Models\UsersModel.cs" />

@@ -168,18 +168,18 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool CreateSubscription(SqlConnection con, SubscriptionModel sub)
+        public static bool CreateSubscription(SqlConnection con, string email, int id)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
                 cmd.CommandText = "insert into Subscriber(user_email,service_id) values(@user_email,@serv_id)";
 
                 SqlParameter param_user_email = new SqlParameter("@user_email", System.Data.SqlDbType.VarChar, 100);
-                param_user_email.Value = sub.user_email;
+                param_user_email.Value = email;
                 cmd.Parameters.Add(param_user_email);
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
-                param_serv_id.Value = sub.service_id;
+                param_serv_id.Value = id;
                 cmd.Parameters.Add(param_serv_id);
 
                 cmd.ExecuteReader();

@@ -90,7 +90,7 @@ namespace PS_project.Utils.DB
         private static void FillServiceInformation(SqlConnection con, ServiceModel service)
         {
             service.avg_rank = GetServiceAvgRanking(con, service.id);
-            service.n_subcribers = GetTotatServiceSubscribers(con, service.id);
+            service.n_subscribers = GetTotatServiceSubscribers(con, service.id);
             service.service_events = DB_Gets.GetEvents(con, service.id);
             service.service_notices = DB_Gets.GetNotices(con, service.id);
             service.service_rankings = DB_Gets.GetRankings(con, service.id);

@@ -12,7 +12,7 @@ namespace PS_project.Models
         public string contact_name { get; set; }
         public string contact_location { get; set; }
         public int service_type { get; set; }
-        public int n_subcribers { get; set; }
+        public int n_subscribers { get; set; }
         public double avg_rank { get; set; }
 
         public bool subscribed = false;
