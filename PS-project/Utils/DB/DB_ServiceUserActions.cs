@@ -114,5 +114,29 @@ namespace PS_project.Utils.DB
                 throw new InternalDBException(e.ToString());
             }
         }
+
+        public static bool RegisterDevice(string email, string device_id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection())
+                {
+                    con.ConnectionString = DB_Config.GetConnectionString();
+                    con.Open();
+
+                    List<string> devices = DB_Gets.GetUserRegisteredDevices(con, email);
+                    if (!devices.Contains(device_id))
+                    {
+                        DB_Inserts.InsertDeviceId(con, email, device_id);
+                    }
+
+                    return true;
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new InternalDBException(e.ToString());
+            }
+        }
     }
 }

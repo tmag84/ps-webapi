@@ -383,13 +383,8 @@ namespace PS_project.Utils.DB
                 List<string> list_devices = new List<string>();
                 while (dr.Read())
                 {
-                    var data = new Dictionary<string, object>();
-                    for (int i = 0; i < dr.FieldCount; i++)
-                    {
-                        data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
-                    }
-                    string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-                    list_devices.Add((string)JsonConvert.DeserializeObject(json, typeof(string)));
+                    var device_id = (string)dr["device_id"];
+                    list_devices.Add(device_id);
                 }
                 return list_devices;
             }

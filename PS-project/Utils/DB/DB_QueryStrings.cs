@@ -15,7 +15,7 @@
         public const string GET_SERVICE_TYPES = "select * from ServiceType";
         public const string GET_SUBSCRIBED_SERVICES = "select * from Service inner join Subscriber on Service.id=Subscriber.service_id where Subscriber.user_email=@email";
         public const string GET_SERVICES_BY_TYPE = "select * from Service where service_type=@type";
-        public const string GET_USER_REGISTRED_DEVICES = "select device_id from RegistredDevice where user_email=@email";
+        public const string GET_USER_REGISTRED_DEVICES = "select device_id from RegistredDevices where email=@email";
 
         public const string SELECT_SCOPE_IDENTITY = "SELECT SCOPE_IDENTITY()";
 

@@ -63,18 +63,18 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool InsertDeviceId(SqlConnection con, UserRegistrationModel registration)
+        public static bool InsertDeviceId(SqlConnection con, string email, string device_id)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
                 cmd.CommandText = DB_QueryStrings.INSERT_DEVICE_REGISTRATION;
 
                 SqlParameter param_device_id = new SqlParameter("@device_id", System.Data.SqlDbType.VarChar, 100);
-                param_device_id.Value = registration.device_id;
+                param_device_id.Value = device_id;
                 cmd.Parameters.Add(param_device_id);
 
                 SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
-                param_email.Value = registration.email;
+                param_email.Value = email;
                 cmd.Parameters.Add(param_email); 
 
                 SqlDataReader dr = cmd.ExecuteReader();

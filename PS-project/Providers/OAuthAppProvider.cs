@@ -13,14 +13,21 @@ namespace PS_project.Providers
             {
                 context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
                 var email = context.UserName;
-                var password = context.Password;
+                var password = context.Password;                
 
                 if (DB_UserActions.LogUser(email, password))
                 {
                     var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                     identity.AddClaim(new Claim("UserEmail", email));
-
                     context.Validated(identity);
+
+                    var data = context.Request.ReadFormAsync();
+                    var device_id = data.Result.Get("device_id");
+
+                    if (device_id!=null)
+                    {
+                        DB_ServiceUserActions.RegisterDevice(email, device_id);
+                    }
                 }
                 else
                 {

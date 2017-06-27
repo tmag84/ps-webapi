@@ -45,18 +45,7 @@ namespace PS_project.Utils.DB
                         string hashed_password = Hashing.GetHashed(registration.password, salt);
                         DB_Inserts.InsertUser(con, registration.email, hashed_password, salt);
                         DB_Inserts.InsertServiceUser(con, registration);
-                        DB_Inserts.InsertDeviceId(con, registration);
                         return true;
-                    }
-
-                    if (user != null)
-                    {
-                        List<string> devices = DB_Gets.GetUserRegisteredDevices(con, user.email);
-                        if (!devices.Contains(registration.device_id))
-                        {
-                            DB_Inserts.InsertDeviceId(con, registration);
-                            return true;
-                        }
                     }
                     throw new DuplicateUserException("User " + registration.email + " already exists.");
                 }
