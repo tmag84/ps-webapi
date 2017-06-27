@@ -31,7 +31,10 @@ namespace PS_project.Utils
             foreach(ServiceModel service in user_info.services)
             {
                 service.subscribed = true;
-                service.Links.Add(new Link("remove-subscription",uriMaker.UriFor(c => c.RemoveSubscription(user_info.user_email,service.id)).AbsoluteUri));
+                SubscriptionModel sub = new SubscriptionModel();
+                sub.email = user_info.user_email;
+                sub.id = service.id;
+                service.Links.Add(new Link("remove-subscription",uriMaker.UriFor(c => c.RemoveSubscription(sub)).AbsoluteUri));
                 service.Links.Add(new Link("add-rank", uriMaker.UriFor(c => c.CreateRanking(null)).AbsolutePath));
             }
         }
@@ -46,9 +49,12 @@ namespace PS_project.Utils
                     {
                         service.subscribed = true;
                     }
-                }                
-                service.Links.Add(new Link("add-subscription", uriMaker.UriFor(c => c.AddSubscription(user_info.user_email, service.id)).AbsoluteUri));
-                service.Links.Add(new Link("remove-subscription", uriMaker.UriFor(c => c.RemoveSubscription(user_info.user_email,service.id)).AbsoluteUri));
+                }
+                SubscriptionModel sub = new SubscriptionModel();
+                sub.email = user_info.user_email;
+                sub.id = service.id;
+                service.Links.Add(new Link("add-subscription", uriMaker.UriFor(c => c.AddSubscription(sub)).AbsoluteUri));
+                service.Links.Add(new Link("remove-subscription", uriMaker.UriFor(c => c.RemoveSubscription(sub)).AbsoluteUri));
             }
         }
     }

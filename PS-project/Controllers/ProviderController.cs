@@ -23,9 +23,9 @@ namespace PS_project.Controllers
             try
             {
                 ProviderResponseModel ps_hal = new ProviderResponseModel();
-                ps_hal.list_service_types = DB_Provider.GetServiceTypes();
+                ps_hal.list_service_types = DB_ServiceProviderActions.GetServiceTypes();
                 ps_hal.Href = uriMaker.UriFor(c => c.GetProviderOptions()).AbsolutePath;
-                ps_hal.Links.Add(new Link("login_provider", uriMaker.UriFor(c => c.Login(null)).AbsolutePath));
+                ps_hal.Links.Add(new Link("login", "/token"));
                 ps_hal.Links.Add(new Link("register_provider", uriMaker.UriFor(c => c.Register(null)).AbsolutePath));
                 resp = Request.CreateResponse<ProviderResponseModel>(HttpStatusCode.OK, ps_hal);
             }
@@ -41,23 +41,45 @@ namespace PS_project.Controllers
             return resp;
         }
 
-        [HttpGet, Route("login")]
-        public HttpResponseMessage Login(ProviderModel provider)
+        [HttpPost, Route("register")]
+        public HttpResponseMessage Register(ProviderRegistrationModel registration)
+        {
+            HttpResponseMessage resp;
+            var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
+
+            try
+            {
+                DB_UserActions.RegisterProvider(registration);
+                resp = Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (PS_Exception e)
+            {
+                ErrorModel error = e.GetError();
+                error.instance = uriMaker.UriFor(c => c.Register(registration)).AbsoluteUri;
+                resp = Request.CreateResponse<ErrorModel>(
+                    error.status, error,
+                    new JsonMediaTypeFormatter(),
+                    new MediaTypeHeaderValue("application/problem+json"));
+            }
+            return resp;
+        }
+
+        [HttpGet, Route("get-service")]
+        [Authorize]
+        public HttpResponseMessage GetService(string email)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_Provider.ProviderLogin(provider);
-                ProviderResponseModel ps_hal = DB_Provider.GetServiceWithProviderEmail(provider.email);
-                ps_hal.Href = uriMaker.UriFor(c => c.Login(provider)).AbsolutePath;
+                ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithProviderEmail(email);
                 HrefBuilders.BuildServiceHrefs(uriMaker, ps_hal);
                 resp = Request.CreateResponse<ProviderResponseModel>(HttpStatusCode.OK, ps_hal);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.Login(provider)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.GetService(email)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -65,16 +87,17 @@ namespace PS_project.Controllers
             }
 
             return resp;
-        }        
+        }
 
         [HttpGet, Route("get-service")]
+        [Authorize]
         public HttpResponseMessage GetService(int id)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                ProviderResponseModel ps_hal = DB_Provider.GetServiceWithServiceId(id);
+                ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithServiceId(id);
                 HrefBuilders.BuildServiceHrefs(uriMaker, ps_hal);
                 resp = Request.CreateResponse<ProviderResponseModel>(HttpStatusCode.OK, ps_hal);
             }
@@ -90,39 +113,17 @@ namespace PS_project.Controllers
 
             return resp;
         }
-
-        [HttpPost, Route("register")]
-        public HttpResponseMessage Register(ProviderRegistrationModel registration)
-        {
-            HttpResponseMessage resp;
-            var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
-
-            try
-            {
-                DB_Provider.RegisterProvider(registration);
-                resp = Request.CreateResponse(HttpStatusCode.OK);
-            }
-            catch (PS_Exception e)
-            {
-                ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.Register(registration)).AbsoluteUri;
-                resp = Request.CreateResponse<ErrorModel>(
-                    error.status, error,
-                    new JsonMediaTypeFormatter(),
-                    new MediaTypeHeaderValue("application/problem+json"));
-            }
-            return resp;
-        }
-
+               
         [HttpPost, Route("create-notice")]
+        [Authorize]
         public HttpResponseMessage CreateNotice(NoticeModel notice)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_Provider.CreateNotice(notice);
-                return GetService(notice.service_id);
+                DB_ServiceProviderActions.CreateNotice(notice);
+                return GetService(notice.id);
             }
             catch (PS_Exception e)
             {
@@ -137,13 +138,14 @@ namespace PS_project.Controllers
         }
 
         [HttpPost, Route("delete-notice")]
+        [Authorize]
         public HttpResponseMessage DeleteNotice(NoticeModel notice)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_Provider.DeleteNotice(notice);
+                DB_ServiceProviderActions.DeleteNotice(notice);
                 return GetService(notice.service_id);
             }
             catch (PS_Exception e)
@@ -159,13 +161,14 @@ namespace PS_project.Controllers
         }
 
         [HttpPost, Route("create-event")]
+        [Authorize]
         public HttpResponseMessage CreateEvent(EventModel ev)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_Provider.CreateEvent(ev);
+                DB_ServiceProviderActions.CreateEvent(ev);
                 return GetService(ev.service_id);
             }
             catch (PS_Exception e)
@@ -181,13 +184,14 @@ namespace PS_project.Controllers
         }
 
         [HttpPost, Route("delete-event")]
+        [Authorize]
         public HttpResponseMessage DeleteEvent(EventModel ev)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_Provider.DeleteEvent(ev);
+                DB_ServiceProviderActions.DeleteEvent(ev);
                 return GetService(ev.service_id);
 
             }
@@ -203,20 +207,21 @@ namespace PS_project.Controllers
             return resp;
         }
 
-        [HttpPut, Route("edit-provider")]
-        public HttpResponseMessage EditProvider(ProviderModel provider)
+        [HttpPut, Route("edit-password")]
+        [Authorize]
+        public HttpResponseMessage EditUserPassword(UserModel user)
         {
             HttpResponseMessage resp;
-            var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
+            var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                DB_Provider.EditProviderPassword(provider);
+                DB_UserActions.EditUserPassword(user);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.EditProvider(provider)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.EditUserPassword(user)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -226,13 +231,14 @@ namespace PS_project.Controllers
         }
 
         [HttpPut, Route("edit-service")]
+        [Authorize]
         public HttpResponseMessage EditService(ServiceModel service)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_Provider.EditServiceInfo(service);
+                DB_ServiceProviderActions.EditServiceInfo(service);
                 return GetService(service.id);
             }
             catch (PS_Exception e)

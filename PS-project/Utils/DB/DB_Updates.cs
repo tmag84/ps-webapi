@@ -1,24 +1,22 @@
 ﻿using PS_project.Models;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using Newtonsoft.Json;
 
 namespace PS_project.Utils.DB
 {
     public class DB_Updates
     {
-        public static bool UpdateProviderInfo(SqlConnection con, ProviderModel provider)
+        public static bool UpdateUserPassword(SqlConnection con, UserModel user)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "update provider set password=@pass where email=@provider_email";
+                cmd.CommandText = DB_QueryStrings.UPDATE_USER_PASSWORD;
 
-                SqlParameter param_password = new SqlParameter("@pass", System.Data.SqlDbType.VarChar, 20);
-                param_password.Value = provider.password;
+                SqlParameter param_password = new SqlParameter("@password", System.Data.SqlDbType.Char, 64);
+                param_password.Value = user.hashedpassword;
                 cmd.Parameters.Add(param_password);
 
-                SqlParameter param_email = new SqlParameter("@provider_email", System.Data.SqlDbType.VarChar,100);
-                param_email.Value = provider.email;
+                SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar,100);
+                param_email.Value = user.email;
                 cmd.Parameters.Add(param_email);
 
                 cmd.ExecuteReader();
@@ -30,8 +28,8 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "update service set name=@serv_name,contact_number=@c_num,contact_name=@c_name,contact_location=@c_loc where id=@serv_id";
-                
+                cmd.CommandText = DB_QueryStrings.UPDATE_SERVICE_INFO;
+
                 SqlParameter param_serv_name = new SqlParameter("@serv_name", System.Data.SqlDbType.VarChar, 150);
                 param_serv_name.Value = service.name;
                 cmd.Parameters.Add(param_serv_name);
@@ -57,15 +55,11 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool UpdateUserInfo(SqlConnection con, UsersModel user)
+        public static bool UpdateUserInfo(SqlConnection con, ServiceUserModel user)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "update users set password=@pass, name=@user_name where email=@user_email";
-
-                SqlParameter param_password = new SqlParameter("@pass", System.Data.SqlDbType.VarChar, 20);
-                param_password.Value = user.password;
-                cmd.Parameters.Add(param_password);
+                cmd.CommandText = DB_QueryStrings.UPDATE_USER_INFO;
 
                 SqlParameter param_username = new SqlParameter("@user_name", System.Data.SqlDbType.VarChar, 100);
                 param_username.Value = user.name;

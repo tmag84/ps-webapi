@@ -64,6 +64,10 @@
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Owin.Cors, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Cors.3.1.0\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
       <Private>True</Private>
@@ -81,7 +85,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -89,6 +93,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -98,6 +107,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.3\lib\net45\System.Web.Http.Owin.dll</HintPath>
       <Private>True</Private>
@@ -126,29 +139,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\NoticeModel.cs" />
-    <Compile Include="Models\ProviderModel.cs" />
+    <Compile Include="Models\ServiceProviderModel.cs" />
     <Compile Include="Models\ProviderRegistrationModel.cs" />
     <Compile Include="Models\ProviderResponseModel.cs" />
     <Compile Include="Models\RankingModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="Models\ServiceTypeModel.cs" />
+    <Compile Include="Models\SubscriptionModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserRegistrationModel.cs" />
     <Compile Include="Models\UserResponseModel.cs" />
-    <Compile Include="Models\UsersModel.cs" />
+    <Compile Include="Models\ServiceUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -160,20 +171,23 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Startup1.cs" />
+    <Compile Include="Providers\OAuthAppProvider.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Utils\Const_Strings.cs" />
-    <Compile Include="Utils\CookieHandler.cs" />
+    <Compile Include="Utils\DB\DB_UserActions.cs" />
     <Compile Include="Utils\DB\DB_Config.cs" />
     <Compile Include="Utils\DB\DB_Deletes.cs" />
     <Compile Include="Utils\DB\DB_Gets.cs" />
-    <Compile Include="Utils\DB\DB_Provider.cs" />
-    <Compile Include="Utils\DB\DB_Creates.cs" />
+    <Compile Include="Utils\DB\DB_Inserts.cs" />
+    <Compile Include="Utils\DB\DB_QueryStrings.cs" />
+    <Compile Include="Utils\DB\DB_ServiceProviderActions.cs" />
+    <Compile Include="Utils\DB\DB_ServiceUserActions.cs" />
     <Compile Include="Utils\DB\DB_Updates.cs" />
-    <Compile Include="Utils\DB\DB_User.cs" />
     <Compile Include="Utils\Exceptions\DuplicateUserException.cs" />
     <Compile Include="Utils\Exceptions\InternalDBException.cs" />
     <Compile Include="Utils\Exceptions\InvalidLoginException.cs" />
     <Compile Include="Utils\Exceptions\PS_Exception.cs" />
+    <Compile Include="Utils\Hashing.cs" />
     <Compile Include="Utils\HrefBuilders.cs" />
   </ItemGroup>
   <ItemGroup>

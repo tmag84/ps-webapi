@@ -7,11 +7,39 @@ namespace PS_project.Utils.DB
 {
     public class DB_Gets
     {
-        public static ProviderModel GetProvider(SqlConnection con, string provider_email)
+        public static UserModel GetUser(SqlConnection con, string email)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from provider where email=@provider_email";
+                cmd.CommandText = DB_QueryStrings.GET_USER;
+
+                SqlParameter param_provider_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
+                param_provider_email.Value = email;
+                cmd.Parameters.Add(param_provider_email);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (!dr.HasRows) return null;
+
+                UserModel provider = new UserModel();
+                while (dr.Read())
+                {
+                    var data = new Dictionary<string, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                    }
+                    string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                    provider = (UserModel)JsonConvert.DeserializeObject(json, typeof(UserModel));
+                }
+                return provider;
+            }
+        }
+
+        public static ServiceProviderModel GetServiceProvider(SqlConnection con, string provider_email)
+        {
+            using (SqlCommand cmd = con.CreateCommand())
+            {
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_PROVIDER;
 
                 SqlParameter param_provider_email = new SqlParameter("@provider_email", System.Data.SqlDbType.VarChar, 100);
                 param_provider_email.Value = provider_email;
@@ -20,7 +48,7 @@ namespace PS_project.Utils.DB
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (!dr.HasRows) return null;
 
-                ProviderModel provider = new ProviderModel();
+                ServiceProviderModel provider = new ServiceProviderModel();
                 while (dr.Read())
                 {
                     var data = new Dictionary<string, object>();
@@ -29,17 +57,17 @@ namespace PS_project.Utils.DB
                         data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
                     }
                     string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-                    provider = (ProviderModel)JsonConvert.DeserializeObject(json, typeof(ProviderModel));
+                    provider = (ServiceProviderModel)JsonConvert.DeserializeObject(json, typeof(ServiceProviderModel));
                 }
                 return provider;
             }
         }
 
-        public static UsersModel GetUser(SqlConnection con, string user_email)
+        public static ServiceUserModel GetServiceUser(SqlConnection con, string user_email)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from users where email=@user_email";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_USER;
 
                 SqlParameter param_email = new SqlParameter("@user_email", System.Data.SqlDbType.VarChar, 100);
                 param_email.Value = user_email;
@@ -48,7 +76,7 @@ namespace PS_project.Utils.DB
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (!dr.HasRows) return null;
 
-                UsersModel u = new UsersModel();
+                ServiceUserModel u = new ServiceUserModel();
                 while (dr.Read())
                 {
                     var data = new Dictionary<string, object>();
@@ -57,7 +85,7 @@ namespace PS_project.Utils.DB
                         data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
                     }
                     string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-                    u = (UsersModel)JsonConvert.DeserializeObject(json, typeof(UsersModel));
+                    u = (ServiceUserModel)JsonConvert.DeserializeObject(json, typeof(ServiceUserModel));
                 }
                 return u;
             }
@@ -98,10 +126,9 @@ namespace PS_project.Utils.DB
 
         public static ServiceModel GetServiceWithProviderEmail(SqlConnection con, string provider_email)
         {
-            string query = "select * from service where provider_email=@email";
+            string query = DB_QueryStrings.GET_SERVICE_WITH_EMAIL;
             SqlParameter param = new SqlParameter("@email", System.Data.SqlDbType.VarChar,100);
             param.Value = provider_email;
-
 
             ServiceModel service = GetService(con, query, param);
             FillServiceInformation(con, service);
@@ -110,7 +137,7 @@ namespace PS_project.Utils.DB
 
         public static ServiceModel GetServiceWithServiceId(SqlConnection con, int service_id)
         {
-            string query = "select * from service where id=@service_id";
+            string query = DB_QueryStrings.GET_SERVICE_WITH_ID;
             SqlParameter param = new SqlParameter("@service_id", System.Data.SqlDbType.Int);
             param.Value = service_id;
 
@@ -123,7 +150,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select count(*) from Subscriber where service_id=@serv_id";
+                cmd.CommandText = DB_QueryStrings.GET_TOTAL_SERVICE_SUBSCRIBERS;
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
                 param_serv_id.Value = service_id;
@@ -145,7 +172,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select avg(value) from Ranking where service_id=@serv_id";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_AVERAGE_RANKING;
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
                 param_serv_id.Value = service_id;
@@ -167,7 +194,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from event where service_id=@id";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_EVENTS;
 
                 SqlParameter param_service_id = new SqlParameter("@id", System.Data.SqlDbType.VarChar, 100);
                 param_service_id.Value = service_id;
@@ -196,7 +223,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from notice where service_id=@id";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_NOTICES;
 
                 SqlParameter param_service_id = new SqlParameter("@id", System.Data.SqlDbType.VarChar, 100);
                 param_service_id.Value = service_id;
@@ -225,7 +252,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from ranking where service_id=@id";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_RANKINGS;
 
                 SqlParameter param_service_id = new SqlParameter("@id", System.Data.SqlDbType.VarChar, 100);
                 param_service_id.Value = service_id;
@@ -254,7 +281,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from ServiceType";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_TYPES;
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 List<ServiceTypeModel> list_service_types = new List<ServiceTypeModel>();
@@ -276,7 +303,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from Service inner join Subscriber on Service.id=Subscriber.service_id where Subscriber.user_email=@email";
+                cmd.CommandText = DB_QueryStrings.GET_SUBSCRIBED_SERVICES;
 
                 SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
                 param_email.Value = user_email;
@@ -305,7 +332,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select * from Service where service_type=@type";
+                cmd.CommandText = DB_QueryStrings.GET_SERVICES_BY_TYPE;
 
                 SqlParameter param_type = new SqlParameter("@type", System.Data.SqlDbType.Int);
                 param_type.Value = service_type;
@@ -344,7 +371,7 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = "select device_id from DeviceRegistration where user_email=@email";
+                cmd.CommandText = DB_QueryStrings.GET_USER_REGISTRED_DEVICES;
 
                 SqlParameter param_user_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
                 param_user_email.Value = user_email;

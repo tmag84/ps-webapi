@@ -1,8 +1,6 @@
-﻿using WebApi.Hal;
-
-namespace PS_project.Models
+﻿namespace PS_project.Models
 {
-    public class ProviderRegistrationModel : Representation
+    public class ProviderRegistrationModel
     {
         public string email { get; set; }
         public string password { get; set; }

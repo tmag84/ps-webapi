@@ -1,5 +1,5 @@
-﻿using WebApi.Hal;
-using System;
+﻿using System;
+using WebApi.Hal;
 
 namespace PS_project.Models
 {

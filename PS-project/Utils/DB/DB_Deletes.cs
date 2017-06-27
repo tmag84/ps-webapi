@@ -12,7 +12,7 @@ namespace PS_project.Utils.DB
             {
                 using (SqlCommand cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "delete from Notice where service_id=@serv_id and id=@notice_id";
+                    cmd.CommandText = DB_QueryStrings.DELETE_NOTICE;
 
                     SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
                     param_serv_id.Value = notice.service_id;
@@ -38,7 +38,7 @@ namespace PS_project.Utils.DB
             {
                 using (SqlCommand cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "delete from Event where id=@event_id";
+                    cmd.CommandText = DB_QueryStrings.DELETE_EVENT;
 
                     SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
                     param_serv_id.Value = ev.service_id;
@@ -64,7 +64,7 @@ namespace PS_project.Utils.DB
             {
                 using (SqlCommand cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "delete from Subscriber where service_id=@serv_id and user_email=@email";
+                    cmd.CommandText = DB_QueryStrings.DELETE_SUBSCRIPTION;
 
                     SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
                     param_serv_id.Value = id;
