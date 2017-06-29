@@ -9,7 +9,7 @@
         public const string GET_SERVICE_WITH_EMAIL = "select * from service where provider_email=@email";
         public const string GET_TOTAL_SERVICE_SUBSCRIBERS = "select count(*) from Subscriber where service_id=@serv_id";
         public const string GET_SERVICE_AVERAGE_RANKING = "select avg(value) from Ranking where service_id=@serv_id";
-        public const string GET_SERVICE_EVENTS = "select * from event where service_id=@id";
+        public const string GET_SERVICE_EVENTS = "select * from event where service_id=@id and event_date>=GETUTCDATE()";
         public const string GET_SERVICE_NOTICES = "select * from notice where service_id=@id";
         public const string GET_SERVICE_RANKINGS = "select * from ranking where service_id=@id";
         public const string GET_SERVICE_TYPES = "select * from ServiceType";

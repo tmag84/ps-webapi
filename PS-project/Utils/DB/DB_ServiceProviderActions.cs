@@ -35,7 +35,6 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
                     resp.service = DB_Gets.GetServiceWithServiceId(con, service_id);
-                    resp.list_service_types = DB_Gets.GetServiceTypes(con);
                     return resp;
                 }
             }
@@ -55,7 +54,6 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
                     resp.service = DB_Gets.GetServiceWithProviderEmail(con, provider_email);
-                    resp.list_service_types = DB_Gets.GetServiceTypes(con);
                     return resp;
                 }
             }

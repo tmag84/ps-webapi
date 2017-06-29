@@ -9,8 +9,8 @@ namespace PS_project.Utils.Exceptions
         {
             this.error = new ErrorModel
             {
-                type = "api/prob/duplicated-item",
-                title = "Attempted to create duplicated item",
+                type = "api/prob/internal-db-error",
+                title = "An error has occoured with the database",
                 detail = msg,
                 status = System.Net.HttpStatusCode.Forbidden
             };

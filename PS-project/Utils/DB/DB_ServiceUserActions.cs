@@ -34,7 +34,6 @@ namespace PS_project.Utils.DB
                     con.Open();
                     UserResponseModel resp = new UserResponseModel();
                     resp.services = DB_Gets.GetSubscribedServices(con, user_email);
-                    resp.list_service_types = DB_Gets.GetServiceTypes(con);
                     return resp;
                 }
             }
@@ -125,7 +124,7 @@ namespace PS_project.Utils.DB
                     con.Open();
 
                     List<string> devices = DB_Gets.GetUserRegisteredDevices(con, email);
-                    if (!devices.Contains(device_id))
+                    if (devices==null || !devices.Contains(device_id))
                     {
                         DB_Inserts.InsertDeviceId(con, email, device_id);
                     }

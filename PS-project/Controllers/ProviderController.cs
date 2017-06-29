@@ -15,32 +15,6 @@ namespace PS_project.Controllers
     [RoutePrefix(Const_Strings.PROVIDER_ROUTE_PREFIX)]
     public class ProviderController : ApiController
     {
-        [HttpGet, Route("")]
-        public HttpResponseMessage GetProviderOptions()
-        {
-            HttpResponseMessage resp;
-            var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
-            try
-            {
-                ProviderResponseModel ps_hal = new ProviderResponseModel();
-                ps_hal.list_service_types = DB_ServiceProviderActions.GetServiceTypes();
-                ps_hal.Href = uriMaker.UriFor(c => c.GetProviderOptions()).AbsolutePath;
-                ps_hal.Links.Add(new Link("login", "/token"));
-                ps_hal.Links.Add(new Link("register_provider", uriMaker.UriFor(c => c.Register(null)).AbsolutePath));
-                resp = Request.CreateResponse<ProviderResponseModel>(HttpStatusCode.OK, ps_hal);
-            }
-            catch(PS_Exception e)
-            {
-                ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.GetProviderOptions()).AbsoluteUri;
-                resp = Request.CreateResponse<ErrorModel>(
-                    error.status, error,
-                    new JsonMediaTypeFormatter(),
-                    new MediaTypeHeaderValue("application/problem+json"));
-            }            
-            return resp;
-        }
-
         [HttpPost, Route("register")]
         public HttpResponseMessage Register(ProviderRegistrationModel registration)
         {

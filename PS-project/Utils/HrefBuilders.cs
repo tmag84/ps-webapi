@@ -28,7 +28,7 @@ namespace PS_project.Utils
 
         public static void BuildSubscriptionsHrefs(UriMaker<UserController> uriMaker, UserResponseModel user_info)
         {
-            foreach(ServiceModel service in user_info.services)
+            foreach (ServiceModel service in user_info.services)
             {
                 service.subscribed = true;
                 SubscriptionModel sub = new SubscriptionModel(user_info.user_email, service.id);
