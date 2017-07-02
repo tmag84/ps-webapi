@@ -18,7 +18,8 @@ namespace PS_project.Providers
                 if (DB_UserActions.LogUser(email, password))
                 {
                     var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-                    identity.AddClaim(new Claim("UserEmail", email));
+                    identity.AddClaim(new Claim("sub", context.UserName));
+                    identity.AddClaim(new Claim("role", "user"));
                     context.Validated(identity);
 
                     var data = context.Request.ReadFormAsync();

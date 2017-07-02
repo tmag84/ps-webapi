@@ -1,6 +1,5 @@
 ﻿using PS_project.Models;
-using PS_project.Utils.Exceptions;
-using System.Collections.Generic;
+using PS_project.Models.Exceptions;
 using System.Data.SqlClient;
 
 namespace PS_project.Utils.DB
@@ -85,7 +84,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool EditUserPassword(UserModel user)
+        public static bool EditUserPassword(string email, string new_password)
         {
             try
             {
@@ -94,9 +93,12 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
 
-                    UserModel u = DB_Gets.GetUser(con, user.email);
+                    UserModel u = DB_Gets.GetUser(con, email);
 
-                    user.hashedpassword = Hashing.GetHashed(user.hashedpassword, u.salt);
+                    UserModel user = new UserModel();
+                    user.email = email;
+                    user.salt = u.salt;
+                    user.hashedpassword = Hashing.GetHashed(new_password, u.salt);
                     return DB_Updates.UpdateUserPassword(con, user);
                 }
             }

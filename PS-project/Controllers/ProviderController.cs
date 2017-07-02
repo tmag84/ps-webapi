@@ -1,14 +1,17 @@
 ﻿using PS_project.Utils;
 using PS_project.Utils.DB;
 using PS_project.Models;
-using PS_project.Utils.Exceptions;
+using PS_project.Models.Exceptions;
 using Drum;
 using WebApi.Hal;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Formatting;
+using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace PS_project.Controllers
 {
@@ -40,12 +43,14 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("get-service")]
         [Authorize]
-        public HttpResponseMessage GetService(string email)
+        public HttpResponseMessage GetService()
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
                 ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithProviderEmail(email);
                 HrefBuilders.BuildServiceHrefs(uriMaker, ps_hal);
                 resp = Request.CreateResponse<ProviderResponseModel>(HttpStatusCode.OK, ps_hal);
@@ -53,7 +58,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.GetService(email)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.GetService()).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -96,7 +101,9 @@ namespace PS_project.Controllers
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_ServiceProviderActions.CreateNotice(notice);
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
+                DB_ServiceProviderActions.CreateNotice(email, notice);
                 return GetService(notice.id);
             }
             catch (PS_Exception e)
@@ -119,7 +126,9 @@ namespace PS_project.Controllers
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_ServiceProviderActions.DeleteNotice(notice);
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
+                DB_ServiceProviderActions.DeleteNotice(email, notice);
                 return GetService(notice.service_id);
             }
             catch (PS_Exception e)
@@ -142,7 +151,9 @@ namespace PS_project.Controllers
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_ServiceProviderActions.CreateEvent(ev);
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
+                DB_ServiceProviderActions.CreateEvent(email, ev);
                 return GetService(ev.service_id);
             }
             catch (PS_Exception e)
@@ -165,7 +176,9 @@ namespace PS_project.Controllers
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                DB_ServiceProviderActions.DeleteEvent(ev);
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
+                DB_ServiceProviderActions.DeleteEvent(email, ev);
                 return GetService(ev.service_id);
 
             }
@@ -183,19 +196,21 @@ namespace PS_project.Controllers
 
         [HttpPut, Route("edit-password")]
         [Authorize]
-        public HttpResponseMessage EditUserPassword(UserModel user)
+        public HttpResponseMessage EditUserPassword(string new_password)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
-                DB_UserActions.EditUserPassword(user);
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
+                DB_UserActions.EditUserPassword(email, new_password);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.EditUserPassword(user)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.EditUserPassword(new_password)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -212,6 +227,8 @@ namespace PS_project.Controllers
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
+                service.provider_email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
                 DB_ServiceProviderActions.EditServiceInfo(service);
                 return GetService(service.id);
             }

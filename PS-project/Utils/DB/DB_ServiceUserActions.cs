@@ -1,5 +1,5 @@
 ﻿using PS_project.Models;
-using PS_project.Utils.Exceptions;
+using PS_project.Models.Exceptions;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 

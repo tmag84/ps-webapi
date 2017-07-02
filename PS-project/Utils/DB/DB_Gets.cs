@@ -389,5 +389,31 @@ namespace PS_project.Utils.DB
                 return list_devices;
             }
         }
+
+        public static List<string> GetSubscriberRegistredDevices(SqlConnection con, int id)
+        {
+            using (SqlCommand cmd = con.CreateCommand())
+            {
+                cmd.CommandText = DB_QueryStrings.GET_SUBSCRIBED_SERVICES;
+
+                SqlParameter param_id = new SqlParameter("@id", System.Data.SqlDbType.VarChar, 100);
+                param_id.Value = id;
+                cmd.Parameters.Add(param_id);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (!dr.HasRows) return null;
+
+                List<string> list_devices = new List<string>();
+                while (dr.Read())
+                {
+                    var device_id = (string)dr["device_id"];
+                    if (device_id!=null)
+                    {
+                        list_devices.Add(device_id);
+                    }                    
+                }
+                return list_devices;
+            }
+        }
     }
 }
