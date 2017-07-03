@@ -45,7 +45,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("subscriptions")]
         [Authorize]
-        public HttpResponseMessage GetUserSubscriptions(int page)
+        public HttpResponseMessage GetUserSubscriptions(int page=1)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -96,7 +96,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("search-by-type")]
         [Authorize]
-        public HttpResponseMessage SearchServicesByType(int type, int page)
+        public HttpResponseMessage SearchServicesByType(int type, int page=1)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -149,7 +149,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("search-by-preferences")]
         [Authorize]
-        public HttpResponseMessage SearchServicesByPreferences(int page, [FromUri]int[] service_types)
+        public HttpResponseMessage SearchServicesByPreferences([FromUri]int[] service_types, int page=1)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -175,12 +175,12 @@ namespace PS_project.Controllers
 
                 if (page > 1)
                 {
-                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.SearchServicesByPreferences(page - 1, service_types)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types, page - 1)).AbsoluteUri));
                 }
 
                 if (end < user_hal.total_services)
                 {
-                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.SearchServicesByPreferences(page + 1, service_types)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types, page + 1)).AbsoluteUri));
                 }
 
                 HrefBuilders.BuildSearchServicesHrefs(uriMaker, user_hal.services, user_info);
@@ -189,7 +189,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.SearchServicesByPreferences(page,service_types)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types,page)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -201,7 +201,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("get-user-events")]
         [Authorize]
-        public HttpResponseMessage GetUserEvents(int page)
+        public HttpResponseMessage GetUserEvents(int page=1)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();

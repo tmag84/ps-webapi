@@ -5,7 +5,7 @@ namespace PS_project.Utils
 {
     public class ClaimsHandler
     {
-        private const string USERNAME = "userName";
+        private const string CLAIM_SUB = "sub";
 
         public static string GetUserNameFromClaim(ClaimsPrincipal principal)
         {
@@ -13,7 +13,7 @@ namespace PS_project.Utils
 
             foreach (Claim claim in principal.Claims)
             {
-                if (claim.Type.Equals(USERNAME))
+                if (claim.Type.Equals(CLAIM_SUB))
                 {
                     username = claim.Value;
                     break;

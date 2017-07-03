@@ -1,128 +1,177 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="PS_project.Utils.Exceptions.DuplicateUserException" Collapsed="true">
-    <Position X="2.25" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Utils\Exceptions\DuplicateUserException.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="PS_project.Utils.Exceptions.InternalDBException" Collapsed="true">
-    <Position X="4" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Utils\Exceptions\InternalDBException.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="PS_project.Utils.Exceptions.InvalidLoginException" Collapsed="true">
-    <Position X="0.5" Y="2" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Utils\Exceptions\InvalidLoginException.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="PS_project.Utils.Exceptions.PS_Exception" Collapsed="true">
-    <Position X="2.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Utils\Exceptions\PS_Exception.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="PS_project.Controllers.ProviderController">
-    <Position X="1.5" Y="5.25" Width="1.5" />
+    <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAoAAAAAAgAAAAEAAABAAAgAIAAAAAAAEA=</HashCode>
+      <HashCode>AAAAAAAAAAAoAAAAAAgAAAAEAAABAAAAAIAACAAAAEA=</HashCode>
       <FileName>Controllers\ProviderController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="System.Web.Http.ApiController" Collapsed="true">
-    <Position X="2.5" Y="3.75" Width="1.5" />
+    <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier />
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="PS_project.Controllers.UserController">
-    <Position X="3.5" Y="5.25" Width="1.5" />
+    <Position X="2.5" Y="4.5" Width="1.5" />
     <InheritanceLine Type="System.Web.Http.ApiController" FixedFromPoint="true">
       <Path>
-        <Point X="3.25" Y="4.312" />
-        <Point X="3.25" Y="4.875" />
-        <Point X="4.25" Y="4.875" />
-        <Point X="4.25" Y="5.25" />
+        <Point X="2.25" Y="3.562" />
+        <Point X="2.25" Y="4.125" />
+        <Point X="3.25" Y="4.125" />
+        <Point X="3.25" Y="4.5" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>EAAAAACAAAAAEAgAAAAAAAAAAQAAAAAAAAAEACAAAgA=</HashCode>
+      <HashCode>EAAAAACAAAAAEAgAAAIgAAAAAQAAAAAAAAAkCCAAAEA=</HashCode>
       <FileName>Controllers\UserController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Config">
-    <Position X="8.5" Y="0.5" Width="2" />
+    <Position X="5.5" Y="4" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Config.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Deletes">
-    <Position X="13" Y="4.5" Width="2" />
+    <Position X="12.75" Y="6" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Deletes.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Gets">
-    <Position X="6.25" Y="4.5" Width="2.25" />
+    <Position X="10.25" Y="3" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAkAAAAAAEAAAAAIAEIAgAAAAAAAJAEAIQAAAACEA=</HashCode>
       <FileName>Utils\DB\DB_Gets.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Inserts">
-    <Position X="8.75" Y="4.5" Width="1.75" />
+    <Position X="12.75" Y="3" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAABAAQAAAIAAgAAQAAEAkAQAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Inserts.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_QueryStrings" Collapsed="true">
-    <Position X="6.75" Y="0.5" Width="1.5" />
+    <Position X="5.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>MAAACADAABAghBAAAACAQAAAUACYigJCwCgAACAAAAA=</HashCode>
+      <HashCode>MAAACADAABAghBAAAACAQAIAUACYigJCwCgAACAAAAA=</HashCode>
       <FileName>Utils\DB\DB_QueryStrings.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_ServiceProviderActions">
-    <Position X="8.75" Y="1.75" Width="2.25" />
+    <Position X="7.75" Y="5.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAoAAQAAIgAIAAAAAAAAAAAAIAAAAAAAEA=</HashCode>
       <FileName>Utils\DB\DB_ServiceProviderActions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_ServiceUserActions">
-    <Position X="11.25" Y="1.75" Width="2" />
+    <Position X="7.75" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEAgAAABAAAAAAQAAAAIAAAAAAAAAAEA=</HashCode>
+      <HashCode>AAIAAAAAAAAAEAgAAABAAAAAAQAAAAIAAAAAAAAAAEA=</HashCode>
       <FileName>Utils\DB\DB_ServiceUserActions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Updates">
-    <Position X="10.75" Y="4.5" Width="2" />
+    <Position X="14.75" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Updates.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_UserActions">
-    <Position X="6.75" Y="1.75" Width="1.75" />
+    <Position X="5.5" Y="5.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>EAAAEAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_UserActions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Providers.OAuthAppProvider">
-    <Position X="15.5" Y="0.5" Width="1.5" />
+    <Position X="26.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Providers\OAuthAppProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.PS_Exception" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\PS_Exception.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.DuplicateUserException" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\DuplicateUserException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.InternalDBException" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\InternalDBException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.InvalidLoginException" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\InvalidLoginException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.InvalidNotificationPushException" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\InvalidNotificationPushException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.InvalidServicePermissionException" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\InvalidServicePermissionException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Models.Exceptions.MissingClaimException" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Exceptions\MissingClaimException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.ClaimsHandler">
+    <Position X="20.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Utils\ClaimsHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.FcmHandler">
+    <Position X="18.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAACAAAAIAAA=</HashCode>
+      <FileName>Utils\FcmHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.HrefBuilders">
+    <Position X="22.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAgAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils\HrefBuilders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PS_project.Utils.Hashing">
+    <Position X="24.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Utils\Hashing.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
