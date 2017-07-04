@@ -122,6 +122,14 @@ namespace PS_project.Utils.DB
             service.service_events = DB_Gets.GetEvents(con, service.id);
             service.service_notices = DB_Gets.GetNotices(con, service.id);
             service.service_rankings = DB_Gets.GetRankings(con, service.id);
+            foreach (var rank in service.service_rankings)
+            {
+                ServiceUserModel user = DB_Gets.GetServiceUser(con, rank.user_email);
+                rank.user_name = user.name;
+            }
+
+            
+
         }
 
         public static ServiceModel GetServiceWithProviderEmail(SqlConnection con, string provider_email)
