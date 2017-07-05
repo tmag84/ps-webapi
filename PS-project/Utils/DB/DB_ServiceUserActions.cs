@@ -24,6 +24,23 @@ namespace PS_project.Utils.DB
             }
         }
 
+        public static ServiceUserModel GetServiceUser(string user_email)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection())
+                {
+                    con.ConnectionString = DB_Config.GetConnectionString();
+                    con.Open();
+                    return DB_Gets.GetServiceUser(con, user_email);
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new InternalDBException(e.ToString());
+            }
+        }
+
         public static UserResponseModel GetSubscribedServices(string user_email)
         {
             try

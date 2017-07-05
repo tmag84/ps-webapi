@@ -3,15 +3,12 @@ using PS_project.Utils.DB;
 using PS_project.Models;
 using PS_project.Models.Exceptions;
 using Drum;
-using WebApi.Hal;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Formatting;
 using System.Security.Claims;
-using System.Collections.Generic;
 
 namespace PS_project.Controllers
 {

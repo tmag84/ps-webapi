@@ -18,7 +18,8 @@ namespace PS_project.Controllers
     [RoutePrefix(Const_Strings.USER_ROUTE_PREFIX)]
     public class UserController : ApiController
     {
-        private const int DEFAULT_PAGESIZE = 5;        
+        private const int DEFAULT_PAGESIZE = 5;
+        private const int DEFAULT_EVENTSIZE = 20;        
 
         [HttpPost, Route("register")]
         public HttpResponseMessage RegisterUser(UserRegistrationModel registration)
@@ -234,12 +235,12 @@ namespace PS_project.Controllers
 
                 user_hal.Href = uriMaker.UriFor(c => c.GetUserEvents(page)).AbsolutePath;
 
-                var begin = (page - 1) * DEFAULT_PAGESIZE;
-                var end = page * DEFAULT_PAGESIZE;
+                var begin = (page - 1) * DEFAULT_EVENTSIZE;
+                var end = page * DEFAULT_EVENTSIZE;
 
                 user_hal.events = user_hal.events
-                    .Skip((page - 1) * DEFAULT_PAGESIZE)
-                    .Take(DEFAULT_PAGESIZE)
+                    .Skip((page - 1) * DEFAULT_EVENTSIZE)
+                    .Take(DEFAULT_EVENTSIZE)
                     .ToList();
 
                 if (page > 1)

@@ -99,7 +99,7 @@ namespace PS_project.Utils.DB
                     DB_Inserts.InsertNotice(con, notice);
 
                     List<string> devices = DB_Gets.GetSubscriberRegistredDevices(con, notice.id);
-                    PushObjectModel push = new PushObjectModel("Nova notícia do serviço "+service.name, notice.text, notice.id);
+                    PushObjectModel push = new PushObjectModel("Nova notícia do serviço "+service.name, notice.text, service.id, service.name);
                     FcmHandler.PushNotification(devices, push);                
 
                     return true;
@@ -154,7 +154,7 @@ namespace PS_project.Utils.DB
                     DB_Inserts.InsertEvent(con, ev);
 
                     List<string> devices = DB_Gets.GetSubscriberRegistredDevices(con, ev.id);
-                    PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_date.ToString(), ev.id);
+                    PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_date.ToString(), ev.service_id, service.name);
                     FcmHandler.PushNotification(devices, push);
 
                     return true;

@@ -30,8 +30,12 @@ namespace PS_project.Utils
                     notification = new
                     {
                         body = obj.body,
-                        title = obj.title,
-                        service_id = obj.service_id
+                        title = obj.title   
+                    },
+                    data = new
+                    {
+                        service_id = obj.service_id,
+                        service_name = obj.service_name
                     }
                 };
 
