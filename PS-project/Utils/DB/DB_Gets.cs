@@ -305,7 +305,7 @@ namespace PS_project.Utils.DB
                 }
                 return list_service_types;
             }
-        }
+        } 
 
         public static List<ServiceModel> GetSubscribedServices(SqlConnection con, string user_email)
         {

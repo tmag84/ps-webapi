@@ -85,6 +85,7 @@ namespace PS_project.Utils.DB
                 {
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
+                    DB_Deletes.DeleteRanking(con, ranking.user_email, ranking.service_id);
                     DB_Inserts.InsertRanking(con, ranking);
                     return true;
                 }
@@ -103,6 +104,16 @@ namespace PS_project.Utils.DB
                 {
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
+
+                    List<ServiceModel> list = DB_Gets.GetSubscribedServices(con, email);
+                    foreach(var service in list)
+                    {
+                        if (service.id==id)
+                        {
+                            return true;
+                        }
+                    }
+
                     DB_Inserts.InsertSubscription(con, email, id);
                     return true;
                 }
@@ -121,6 +132,16 @@ namespace PS_project.Utils.DB
                 {
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
+
+                    List<ServiceModel> list = DB_Gets.GetSubscribedServices(con, email);
+                    foreach (var service in list)
+                    {
+                        if (service.id == id)
+                        {
+                            return true;
+                        }
+                    }
+
                     DB_Deletes.DeleteSubscription(con, email, id);
                     return true;
                 }

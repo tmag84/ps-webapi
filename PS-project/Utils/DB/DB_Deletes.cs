@@ -83,5 +83,31 @@ namespace PS_project.Utils.DB
                 throw new InternalDBException(e.ToString());
             }
         }
+
+        public static bool DeleteRanking(SqlConnection con, string email, int id)
+        {
+            try
+            {
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = DB_QueryStrings.DELETE_RANKING;
+
+                    SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
+                    param_serv_id.Value = id;
+                    cmd.Parameters.Add(param_serv_id);
+
+                    SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
+                    param_email.Value = email;
+                    cmd.Parameters.Add(param_email);
+
+                    cmd.ExecuteReader();
+                    return true;
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new InternalDBException(e.ToString());
+            }
+        }
     }
 }

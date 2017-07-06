@@ -17,7 +17,7 @@
         public const string GET_SERVICES_BY_TYPE = "select * from Service where service_type=@type";
         public const string GET_USER_REGISTRED_DEVICES = "select device_id from RegistredDevices where email=@email";
         public const string GET_SERVICE_SUBSCRIBED_DEVICES = "select device_id from Subscriber left join RegistredDevices on Subscriber.user_email=RegistredDevices.email where Subscriber.service_id=@id";
-
+        
         public const string SELECT_SCOPE_IDENTITY = "SELECT SCOPE_IDENTITY()";
 
         public const string INSERT_USER = "insert into Users values(@email,@password,@salt)";
@@ -37,5 +37,6 @@
         public const string DELETE_NOTICE = "delete from Notice where service_id=@serv_id and id=@notice_id";
         public const string DELETE_EVENT = "delete from Event where service_id=@serv_id and id=@event_id";
         public const string DELETE_SUBSCRIPTION = "delete from Subscriber where service_id=@serv_id and user_email=@email";
+        public const string DELETE_RANKING = "delete from Ranking where service_id=@serv_id and user_email=@email";
     }
 }
