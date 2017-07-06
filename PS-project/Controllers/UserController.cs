@@ -320,7 +320,7 @@ namespace PS_project.Controllers
 
         [HttpPost, Route("add-subscription")]
         [Authorize]
-        public HttpResponseMessage AddSubscription(int id)
+        public HttpResponseMessage AddSubscription(SubscriptionModel sub)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -328,13 +328,13 @@ namespace PS_project.Controllers
             {
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
-                DB_ServiceUserActions.AddSubscription(email,id);
+                DB_ServiceUserActions.AddSubscription(email,sub.id);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.AddSubscription(id)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.AddSubscription(sub)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -346,7 +346,7 @@ namespace PS_project.Controllers
 
         [HttpPost, Route("remove-subscription")]
         [Authorize]
-        public HttpResponseMessage RemoveSubscription(int id)
+        public HttpResponseMessage RemoveSubscription(SubscriptionModel sub)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -354,13 +354,13 @@ namespace PS_project.Controllers
             {
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
-                DB_ServiceUserActions.RemoveSubscription(email,id);
+                DB_ServiceUserActions.RemoveSubscription(email,sub.id);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.RemoveSubscription(id)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.RemoveSubscription(sub)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
