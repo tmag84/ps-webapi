@@ -222,6 +222,7 @@
     <Compile Include="Utils\FcmHandler.cs" />
     <Compile Include="Utils\Hashing.cs" />
     <Compile Include="Utils\HrefBuilders.cs" />
+    <Compile Include="Utils\SortUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

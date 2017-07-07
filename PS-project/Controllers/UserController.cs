@@ -45,7 +45,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("subscriptions")]
         [Authorize]
-        public HttpResponseMessage GetUserSubscriptions(int page=1)
+        public HttpResponseMessage GetUserSubscriptions(int page=1, string sortOrder=Const_Strings.SORT_BY_NUMBER_SUBSCRIBERS)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -58,26 +58,25 @@ namespace PS_project.Controllers
                 user_hal.user_email = email;
                 user_hal.total_services = user_hal.services.Count;
                 user_hal.curr_page = page;
-                user_hal.Href = uriMaker.UriFor(c => c.GetUserSubscriptions(page)).AbsolutePath;
+                user_hal.Href = uriMaker.UriFor(c => c.GetUserSubscriptions(page,sortOrder)).AbsolutePath;
 
                 var begin = (page - 1) * DEFAULT_PAGESIZE;
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
-                    .OrderByDescending(s=>s.n_subscribers)
-                    .ThenBy(s=>s.avg_rank)
+                    .sortServicesBy(sortOrder)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
 
                 if (page > 1)
                 {
-                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.GetUserSubscriptions(page - 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.GetUserSubscriptions(page - 1,sortOrder)).AbsoluteUri));
                 }                
                 
                 if (end < user_hal.total_services)
                 {
-                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.GetUserSubscriptions(page + 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.GetUserSubscriptions(page + 1,sortOrder)).AbsoluteUri));
                 }
 
                 HrefBuilders.BuildSubscriptionsHrefs(uriMaker, user_hal);
@@ -86,7 +85,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.GetUserSubscriptions(page)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.GetUserSubscriptions(page,sortOrder)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -98,7 +97,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("search-by-type")]
         [Authorize]
-        public HttpResponseMessage SearchServicesByType(int type, int page=1)
+        public HttpResponseMessage SearchServicesByType(int type, int page=1, string sortOrder = Const_Strings.SORT_BY_NUMBER_SUBSCRIBERS)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -119,20 +118,19 @@ namespace PS_project.Controllers
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
-                    .OrderByDescending(s => s.n_subscribers)
-                    .ThenBy(s => s.avg_rank)
+                    .sortServicesBy(sortOrder)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
 
                 if (page > 1)
                 {
-                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.SearchServicesByType(type, page - 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.SearchServicesByType(type, page - 1, sortOrder)).AbsoluteUri));
                 }
 
                 if (end < user_hal.total_services)
                 {
-                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.SearchServicesByType(type, page + 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.SearchServicesByType(type, page + 1, sortOrder)).AbsoluteUri));
                 }
 
                 HrefBuilders.BuildSearchServicesHrefs(uriMaker, user_hal.services, user_info);
@@ -141,7 +139,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.SearchServicesByType(type,page)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.SearchServicesByType(type,page,sortOrder)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -153,7 +151,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("search-by-preferences")]
         [Authorize]
-        public HttpResponseMessage SearchServicesByPreferences([FromUri]int[] service_types, int page=1)
+        public HttpResponseMessage SearchServicesByPreferences([FromUri]int[] service_types, int page=1, string sortOrder = Const_Strings.SORT_BY_NUMBER_SUBSCRIBERS)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -173,20 +171,19 @@ namespace PS_project.Controllers
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
-                    .OrderByDescending(s => s.n_subscribers)
-                    .ThenBy(s => s.avg_rank)
+                    .sortServicesBy(sortOrder)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
 
                 if (page > 1)
                 {
-                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types, page - 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types, page - 1, sortOrder)).AbsoluteUri));
                 }
 
                 if (end < user_hal.total_services)
                 {
-                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types, page + 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types, page + 1, sortOrder)).AbsoluteUri));
                 }
 
                 HrefBuilders.BuildSearchServicesHrefs(uriMaker, user_hal.services, user_info);
@@ -195,7 +192,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types,page)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.SearchServicesByPreferences(service_types,page, sortOrder)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -207,7 +204,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("get-user-events")]
         [Authorize]
-        public HttpResponseMessage GetUserEvents(int page=1)
+        public HttpResponseMessage GetUserEvents(int page=1, string sortOrder=Const_Strings.SORT_BY_CREATION_DATE_DESC)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -238,25 +235,25 @@ namespace PS_project.Controllers
                 user_hal.total_events = user_hal.events.Count;
                 user_hal.curr_page = page;
 
-                user_hal.Href = uriMaker.UriFor(c => c.GetUserEvents(page)).AbsolutePath;
+                user_hal.Href = uriMaker.UriFor(c => c.GetUserEvents(page,sortOrder)).AbsolutePath;
 
                 var begin = (page - 1) * DEFAULT_PAGESIZE;
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.events = user_hal.events
-                    .OrderBy(ev=>ev.event_date)
+                    .sortUserEventsBy(sortOrder)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
 
                 if (page > 1)
                 {
-                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.GetUserEvents(page - 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("prev", uriMaker.UriFor(c => c.GetUserEvents(page - 1,sortOrder)).AbsoluteUri));
                 }
 
                 if (end < user_hal.total_events)
                 {
-                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.GetUserEvents(page + 1)).AbsoluteUri));
+                    user_hal.Links.Add(new Link("next", uriMaker.UriFor(c => c.GetUserEvents(page + 1,sortOrder)).AbsoluteUri));
                 }
 
                 resp = Request.CreateResponse<UserEventResponseModel>(HttpStatusCode.OK, user_hal);
@@ -264,7 +261,7 @@ namespace PS_project.Controllers
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.GetUserEvents(page)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.GetUserEvents(page,sortOrder)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
