@@ -12,10 +12,10 @@ namespace PS_project.Utils
             switch(sortOrder)
             {
                 case Const_Strings.SORT_BY_AVERAGE_RANKING:
-                    return list.OrderBy(s => s.avg_rank);
+                    return list.OrderByDescending(s => s.avg_rank);
                 case Const_Strings.SORT_BY_NUMBER_SUBSCRIBERS:
-                    return list.OrderBy(s => s.n_subscribers);
-                default: return list.OrderBy(s => s.n_subscribers);
+                    return list.OrderByDescending(s => s.n_subscribers);
+                default: return list.OrderByDescending(s => s.n_subscribers);
             }
         }
 
