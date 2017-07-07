@@ -18,8 +18,7 @@ namespace PS_project.Controllers
     [RoutePrefix(Const_Strings.USER_ROUTE_PREFIX)]
     public class UserController : ApiController
     {
-        private const int DEFAULT_PAGESIZE = 5;
-        private const int DEFAULT_EVENTSIZE = 20;        
+        private const int DEFAULT_PAGESIZE = 30;        
 
         [HttpPost, Route("register")]
         public HttpResponseMessage RegisterUser(UserRegistrationModel registration)
@@ -65,6 +64,7 @@ namespace PS_project.Controllers
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
+                    .OrderByDescending(s=>s.n_subscribers)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
@@ -117,8 +117,9 @@ namespace PS_project.Controllers
                 var begin = (page - 1) * DEFAULT_PAGESIZE;
                 var end = page * DEFAULT_PAGESIZE;
 
-                user_hal.services = user_hal.services.
-                    Skip((page - 1) * DEFAULT_PAGESIZE)
+                user_hal.services = user_hal.services
+                    .OrderByDescending(s=>s.avg_rank)
+                    .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
 
@@ -170,6 +171,7 @@ namespace PS_project.Controllers
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
+                    .OrderByDescending(s=>s.avg_rank)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
@@ -235,12 +237,13 @@ namespace PS_project.Controllers
 
                 user_hal.Href = uriMaker.UriFor(c => c.GetUserEvents(page)).AbsolutePath;
 
-                var begin = (page - 1) * DEFAULT_EVENTSIZE;
-                var end = page * DEFAULT_EVENTSIZE;
+                var begin = (page - 1) * DEFAULT_PAGESIZE;
+                var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.events = user_hal.events
-                    .Skip((page - 1) * DEFAULT_EVENTSIZE)
-                    .Take(DEFAULT_EVENTSIZE)
+                    .OrderBy(ev=>ev.event_date)
+                    .Skip((page - 1) * DEFAULT_PAGESIZE)
+                    .Take(DEFAULT_PAGESIZE)
                     .ToList();
 
                 if (page > 1)
