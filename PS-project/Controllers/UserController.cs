@@ -65,6 +65,7 @@ namespace PS_project.Controllers
 
                 user_hal.services = user_hal.services
                     .OrderByDescending(s=>s.n_subscribers)
+                    .ThenBy(s=>s.avg_rank)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
@@ -118,7 +119,8 @@ namespace PS_project.Controllers
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
-                    .OrderByDescending(s=>s.avg_rank)
+                    .OrderByDescending(s => s.n_subscribers)
+                    .ThenBy(s => s.avg_rank)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
@@ -171,7 +173,8 @@ namespace PS_project.Controllers
                 var end = page * DEFAULT_PAGESIZE;
 
                 user_hal.services = user_hal.services
-                    .OrderByDescending(s=>s.avg_rank)
+                    .OrderByDescending(s => s.n_subscribers)
+                    .ThenBy(s => s.avg_rank)
                     .Skip((page - 1) * DEFAULT_PAGESIZE)
                     .Take(DEFAULT_PAGESIZE)
                     .ToList();
