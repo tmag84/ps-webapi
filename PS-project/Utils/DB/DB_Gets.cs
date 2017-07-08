@@ -1,7 +1,19 @@
 ﻿using PS_project.Models;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using Newtonsoft.Json;
+using PS_project.Utils;
+using PS_project.Utils.DB;
+using PS_project.Models.Exceptions;
+using Drum;
+using WebApi.Hal;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Formatting;
+using System.Security.Claims;
 
 namespace PS_project.Utils.DB
 {
@@ -119,17 +131,24 @@ namespace PS_project.Utils.DB
         {
             service.avg_rank = GetServiceAvgRanking(con, service.id);
             service.n_subscribers = GetTotatServiceSubscribers(con, service.id);
-            service.service_events = DB_Gets.GetEvents(con, service.id);
-            service.service_notices = DB_Gets.GetNotices(con, service.id);
-            service.service_rankings = DB_Gets.GetRankings(con, service.id);
+
+            service.service_events = DB_Gets.GetEvents(con, service.id)
+                .OrderBy(ev => ev.event_date)
+                .ToList();
+
+            service.service_notices = DB_Gets.GetNotices(con, service.id)
+                .OrderByDescending(notice => notice.creation_date)
+                .ToList();
+
+            service.service_rankings = DB_Gets.GetRankings(con, service.id)
+                .OrderByDescending(rank=>rank.value)
+                .ToList();
+
             foreach (var rank in service.service_rankings)
             {
                 ServiceUserModel user = DB_Gets.GetServiceUser(con, rank.user_email);
                 rank.user_name = user.name;
             }
-
-            
-
         }
 
         public static ServiceModel GetServiceWithProviderEmail(SqlConnection con, string provider_email)
