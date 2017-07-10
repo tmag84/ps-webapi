@@ -120,6 +120,8 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
                 cmd.CommandText = DB_QueryStrings.INSERT_NOTICE + ";" + DB_QueryStrings.SELECT_SCOPE_IDENTITY;
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
@@ -130,6 +132,10 @@ namespace PS_project.Utils.DB
                 param_text.Value = notice.text;
                 cmd.Parameters.Add(param_text);
 
+                SqlParameter param_now_date = new SqlParameter("@now_date", System.Data.SqlDbType.Int);
+                param_now_date.Value = unixTimestamp;
+                cmd.Parameters.Add(param_now_date);
+
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
@@ -137,6 +143,8 @@ namespace PS_project.Utils.DB
         public static int InsertEvent(SqlConnection con, EventModel ev) {
             using (SqlCommand cmd = con.CreateCommand())
             {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
                 cmd.CommandText = DB_QueryStrings.INSERT_EVENT + ";" + DB_QueryStrings.SELECT_SCOPE_IDENTITY;
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
@@ -147,7 +155,11 @@ namespace PS_project.Utils.DB
                 param_text.Value = ev.text;
                 cmd.Parameters.Add(param_text);
 
-                SqlParameter param_event_date = new SqlParameter("@event_date", System.Data.SqlDbType.DateTime);
+                SqlParameter param_now_date = new SqlParameter("@now_date", System.Data.SqlDbType.Int);
+                param_now_date.Value = unixTimestamp;
+                cmd.Parameters.Add(param_now_date);
+
+                SqlParameter param_event_date = new SqlParameter("@event_date", System.Data.SqlDbType.Int);
                 param_event_date.Value = ev.event_date;
                 cmd.Parameters.Add(param_event_date);
 
@@ -159,6 +171,8 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
                 cmd.CommandText = DB_QueryStrings.INSERT_RANKING;
 
                 SqlParameter param_user_email = new SqlParameter("@user_email", System.Data.SqlDbType.VarChar, 100);
@@ -176,6 +190,10 @@ namespace PS_project.Utils.DB
                 SqlParameter param_text = new SqlParameter("@text", System.Data.SqlDbType.VarChar, 150);
                 param_text.Value = rank.text;
                 cmd.Parameters.Add(param_text);
+
+                SqlParameter param_now_date = new SqlParameter("@now_date", System.Data.SqlDbType.Int);
+                param_now_date.Value = unixTimestamp;
+                cmd.Parameters.Add(param_now_date);
 
                 cmd.ExecuteReader();
                 return true;

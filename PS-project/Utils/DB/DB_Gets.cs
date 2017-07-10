@@ -1,19 +1,9 @@
 ﻿using PS_project.Models;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+using System;
 using System.Linq;
+using System.Data.SqlClient;
+using System.Collections.Generic;
 using Newtonsoft.Json;
-using PS_project.Utils;
-using PS_project.Utils.DB;
-using PS_project.Models.Exceptions;
-using Drum;
-using WebApi.Hal;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Formatting;
-using System.Security.Claims;
 
 namespace PS_project.Utils.DB
 {
@@ -129,6 +119,8 @@ namespace PS_project.Utils.DB
 
         private static void FillServiceInformation(SqlConnection con, ServiceModel service)
         {
+            DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
             service.avg_rank = GetServiceAvgRanking(con, service.id);
             service.n_subscribers = GetTotatServiceSubscribers(con, service.id);
 
@@ -221,11 +213,17 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
                 cmd.CommandText = DB_QueryStrings.GET_SERVICE_EVENTS;
 
                 SqlParameter param_service_id = new SqlParameter("@id", System.Data.SqlDbType.VarChar, 100);
                 param_service_id.Value = service_id;
                 cmd.Parameters.Add(param_service_id);
+
+                SqlParameter param_now_date = new SqlParameter("@now_date", System.Data.SqlDbType.Int);
+                param_now_date.Value = unixTimestamp;
+                cmd.Parameters.Add(param_now_date);
 
                 List<EventModel> list_events = new List<EventModel>();
 
@@ -417,13 +415,13 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static List<string> GetSubscriberRegistredDevices(SqlConnection con, int id)
+        public static List<string> GetServiceSubscribersRegistredDevices(SqlConnection con, int id)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = DB_QueryStrings.GET_SUBSCRIBED_SERVICES;
+                cmd.CommandText = DB_QueryStrings.GET_SERVICE_SUBSCRIBED_DEVICES;
 
-                SqlParameter param_id = new SqlParameter("@id", System.Data.SqlDbType.VarChar, 100);
+                SqlParameter param_id = new SqlParameter("@id", System.Data.SqlDbType.Int);
                 param_id.Value = id;
                 cmd.Parameters.Add(param_id);
 

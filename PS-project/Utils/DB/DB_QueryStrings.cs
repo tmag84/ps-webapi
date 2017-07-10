@@ -9,7 +9,7 @@
         public const string GET_SERVICE_WITH_EMAIL = "select * from service where provider_email=@email";
         public const string GET_TOTAL_SERVICE_SUBSCRIBERS = "select count(*) from Subscriber where service_id=@serv_id";
         public const string GET_SERVICE_AVERAGE_RANKING = "select avg(value) from Ranking where service_id=@serv_id";
-        public const string GET_SERVICE_EVENTS = "select * from event where service_id=@id and event_date>=GETUTCDATE()";
+        public const string GET_SERVICE_EVENTS = "select * from event where service_id=@id and event_date>=@now_date";
         public const string GET_SERVICE_NOTICES = "select * from notice where service_id=@id";
         public const string GET_SERVICE_RANKINGS = "select * from ranking where service_id=@id";
         public const string GET_SERVICE_TYPES = "select * from ServiceType";
@@ -25,9 +25,9 @@
         public const string INSERT_SERVICE_USER = "insert into ServiceUser values(@email,@name)";
         public const string INSERT_DEVICE_REGISTRATION = "insert into RegistredDevices values(@device_id,@email)";
         public const string INSERT_SERVICE = "insert into Service(provider_email,name,contact_number,contact_name,contact_location,service_type) values(@provider_email,@name,@contact_number,@contact_name,@contact_location,@service_type)";
-        public const string INSERT_NOTICE = "insert into Notice(service_id,text,creation_date) values(@serv_id,@notice_text,GETUTCDATE())";
-        public const string INSERT_EVENT = "insert into Event(service_id,text,creation_date,event_date) values(@serv_id,@event_text,GETUTCDATE(),@event_date)";
-        public const string INSERT_RANKING = "insert into Ranking(user_email,service_id,value,text,creation_date) values(@user_email,@serv_id,@value,@text,GETUTCDATE())";
+        public const string INSERT_NOTICE = "insert into Notice(service_id,text,creation_date) values(@serv_id,@notice_text,@now_date)";
+        public const string INSERT_EVENT = "insert into Event(service_id,text,creation_date,event_date) values(@serv_id,@event_text,@now_date,@event_date)";
+        public const string INSERT_RANKING = "insert into Ranking(user_email,service_id,value,text,creation_date) values(@user_email,@serv_id,@value,@text,@now_date)";
         public const string INSERT_SUBSCRIPTION = "insert into Subscriber(user_email,service_id) values(@user_email,@serv_id)";
 
         public const string UPDATE_USER_PASSWORD = "update Users set password=@pass where email=@provider_email";

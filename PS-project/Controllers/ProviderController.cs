@@ -101,7 +101,7 @@ namespace PS_project.Controllers
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
                 DB_ServiceProviderActions.CreateNotice(email, notice);
-                return GetService(notice.id);
+                return GetService(notice.service_id);
             }
             catch (PS_Exception e)
             {

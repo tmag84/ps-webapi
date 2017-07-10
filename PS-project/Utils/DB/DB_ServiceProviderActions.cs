@@ -92,13 +92,13 @@ namespace PS_project.Utils.DB
                     con.Open();
 
                     ServiceModel service = DB_Gets.GetServiceWithProviderEmail(con, email);
-                    if (service.id != notice.id)
+                    if (service.id != notice.service_id)
                     {
                         throw new InvalidServicePermissionException("User "+email+" doesn't have permission to handle service "+service.name+" with id "+service.id);
                     }
                     DB_Inserts.InsertNotice(con, notice);
 
-                    List<string> devices = DB_Gets.GetSubscriberRegistredDevices(con, notice.id);
+                    List<string> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, notice.service_id);
                     PushObjectModel push = new PushObjectModel("Nova notícia do serviço "+service.name, notice.text, service.id, service.name);
                     FcmHandler.PushNotification(devices, push);                
 
@@ -121,7 +121,7 @@ namespace PS_project.Utils.DB
                     con.Open();
 
                     ServiceModel service = DB_Gets.GetServiceWithProviderEmail(con, email);
-                    if (service.id != notice.id)
+                    if (service.id != notice.service_id)
                     {
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }
@@ -146,14 +146,14 @@ namespace PS_project.Utils.DB
                     con.Open();
 
                     ServiceModel service = DB_Gets.GetServiceWithProviderEmail(con, email);
-                    if (service.id != ev.id)
+                    if (service.id != ev.service_id)
                     {
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }
 
                     DB_Inserts.InsertEvent(con, ev);
 
-                    List<string> devices = DB_Gets.GetSubscriberRegistredDevices(con, ev.id);
+                    List<string> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, ev.service_id);
                     PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_date.ToString(), ev.service_id, service.name);
                     FcmHandler.PushNotification(devices, push);
 
@@ -176,7 +176,7 @@ namespace PS_project.Utils.DB
                     con.Open();
 
                     ServiceModel service = DB_Gets.GetServiceWithProviderEmail(con, email);
-                    if (service.id != ev.id)
+                    if (service.id != ev.service_id)
                     {
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }

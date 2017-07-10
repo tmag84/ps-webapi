@@ -7,8 +7,8 @@ namespace PS_project.Models
     {
         public int service_id { get; set; }
         public int id { get; set; }
-        public string text { get; set; }
-        public DateTime creation_date { get; set; }
-        public DateTime event_date { get; set; }
+        public string text { get; set; }        
+        public long creation_date { get; set; }
+        public long event_date { get; set; }
     }
 }
