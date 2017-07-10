@@ -170,6 +170,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\Exceptions\InvalidNotificationPushException.cs" />

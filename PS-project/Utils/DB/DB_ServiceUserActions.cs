@@ -1,7 +1,8 @@
 ﻿using PS_project.Models;
 using PS_project.Models.Exceptions;
-using System.Collections.Generic;
+using System;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace PS_project.Utils.DB
 {
@@ -86,7 +87,8 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
                     DB_Deletes.DeleteRanking(con, ranking.user_email, ranking.service_id);
-                    DB_Inserts.InsertRanking(con, ranking);
+                    int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    DB_Inserts.InsertRanking(con, ranking, unixTimestamp);
                     return true;
                 }
             }
@@ -161,12 +163,11 @@ namespace PS_project.Utils.DB
                     con.ConnectionString = DB_Config.GetConnectionString();
                     con.Open();
 
-                    List<string> devices = DB_Gets.GetUserRegisteredDevices(con, email);
-                    if (devices==null || !devices.Contains(device_id))
+                    List<DeviceModel> devices = DB_Gets.GetUserRegisteredDevices(con, email);
+                    if (devices==null || !devices.Exists(d=>d.device_id==device_id))
                     {
                         DB_Inserts.InsertDeviceId(con, email, device_id);
                     }
-
                     return true;
                 }
             }

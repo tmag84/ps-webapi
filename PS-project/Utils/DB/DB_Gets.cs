@@ -392,7 +392,7 @@ namespace PS_project.Utils.DB
             return list_services;            
         }
 
-        public static List<string> GetUserRegisteredDevices(SqlConnection con, string user_email)
+        public static List<DeviceModel> GetUserRegisteredDevices(SqlConnection con, string user_email)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
@@ -405,17 +405,23 @@ namespace PS_project.Utils.DB
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (!dr.HasRows) return null;
 
-                List<string> list_devices = new List<string>();
+                List<DeviceModel> list_devices = new List<DeviceModel>();
                 while (dr.Read())
                 {
-                    var device_id = (string)dr["device_id"];
-                    list_devices.Add(device_id);
+                    var data = new Dictionary<string, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                    }
+                    string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                    DeviceModel device = (DeviceModel)JsonConvert.DeserializeObject(json, typeof(DeviceModel));
+                    list_devices.Add(device);
                 }
                 return list_devices;
             }
         }
 
-        public static List<string> GetServiceSubscribersRegistredDevices(SqlConnection con, int id)
+        public static List<DeviceModel> GetServiceSubscribersRegistredDevices(SqlConnection con, int id)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
@@ -428,14 +434,17 @@ namespace PS_project.Utils.DB
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (!dr.HasRows) return null;
 
-                List<string> list_devices = new List<string>();
+                List<DeviceModel> list_devices = new List<DeviceModel>();
                 while (dr.Read())
                 {
-                    var device_id = (string)dr["device_id"];
-                    if (device_id!=null)
+                    var data = new Dictionary<string, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
                     {
-                        list_devices.Add(device_id);
-                    }                    
+                        data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                    }
+                    string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                    DeviceModel device = (DeviceModel)JsonConvert.DeserializeObject(json, typeof(DeviceModel));
+                    list_devices.Add(device);
                 }
                 return list_devices;
             }

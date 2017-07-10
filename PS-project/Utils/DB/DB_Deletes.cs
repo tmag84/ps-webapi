@@ -109,5 +109,31 @@ namespace PS_project.Utils.DB
                 throw new InternalDBException(e.ToString());
             }
         }
+
+        public static bool DeleteDevice(SqlConnection con, DeviceModel device)
+        {
+            try
+            {
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = DB_QueryStrings.DELETE_DEVICE_REGISTRATION;
+
+                    SqlParameter param_device_id = new SqlParameter("@device_id", System.Data.SqlDbType.VarChar, 100);
+                    param_device_id.Value = device.device_id;
+                    cmd.Parameters.Add(param_device_id);
+
+                    SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
+                    param_email.Value = device.email;
+                    cmd.Parameters.Add(param_email);
+
+                    cmd.ExecuteReader();
+                    return true;
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new InternalDBException(e.ToString());
+            }
+        }
     }
 }

@@ -15,15 +15,15 @@
         public const string GET_SERVICE_TYPES = "select * from ServiceType";
         public const string GET_SUBSCRIBED_SERVICES = "select * from Service inner join Subscriber on Service.id=Subscriber.service_id where Subscriber.user_email=@email";
         public const string GET_SERVICES_BY_TYPE = "select * from Service where service_type=@type";
-        public const string GET_USER_REGISTRED_DEVICES = "select device_id from RegistredDevices where email=@email";
-        public const string GET_SERVICE_SUBSCRIBED_DEVICES = "select device_id from Subscriber left join RegistredDevices on Subscriber.user_email=RegistredDevices.email where Subscriber.service_id=@id";
+        public const string GET_USER_REGISTRED_DEVICES = "select device_id,last_used from RegistredDevices where email=@email";
+        public const string GET_SERVICE_SUBSCRIBED_DEVICES = "select device_id,last_used from Subscriber left join RegistredDevices on Subscriber.user_email=RegistredDevices.email where Subscriber.service_id=@id";
         
         public const string SELECT_SCOPE_IDENTITY = "SELECT SCOPE_IDENTITY()";
 
         public const string INSERT_USER = "insert into Users values(@email,@password,@salt)";
         public const string INSERT_SERVICE_PROVIDER = "insert into ServiceProvider values(@email)";
         public const string INSERT_SERVICE_USER = "insert into ServiceUser values(@email,@name)";
-        public const string INSERT_DEVICE_REGISTRATION = "insert into RegistredDevices values(@device_id,@email)";
+        public const string INSERT_DEVICE_REGISTRATION = "insert into RegistredDevices values(@device_id,@email,@now_date)";
         public const string INSERT_SERVICE = "insert into Service(provider_email,name,contact_number,contact_name,contact_location,service_type) values(@provider_email,@name,@contact_number,@contact_name,@contact_location,@service_type)";
         public const string INSERT_NOTICE = "insert into Notice(service_id,text,creation_date) values(@serv_id,@notice_text,@now_date)";
         public const string INSERT_EVENT = "insert into Event(service_id,text,creation_date,event_date) values(@serv_id,@event_text,@now_date,@event_date)";
@@ -38,5 +38,6 @@
         public const string DELETE_EVENT = "delete from Event where service_id=@serv_id and id=@event_id";
         public const string DELETE_SUBSCRIPTION = "delete from Subscriber where service_id=@serv_id and user_email=@email";
         public const string DELETE_RANKING = "delete from Ranking where service_id=@serv_id and user_email=@email";
+        public const string DELETE_DEVICE_REGISTRATION = "delete from RegistredDevices where device_id=@device_id and email=@email;";
     }
 }

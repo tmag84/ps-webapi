@@ -67,6 +67,8 @@ namespace PS_project.Utils.DB
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
                 cmd.CommandText = DB_QueryStrings.INSERT_DEVICE_REGISTRATION;
 
                 SqlParameter param_device_id = new SqlParameter("@device_id", System.Data.SqlDbType.VarChar, 100);
@@ -75,7 +77,11 @@ namespace PS_project.Utils.DB
 
                 SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar, 100);
                 param_email.Value = email;
-                cmd.Parameters.Add(param_email); 
+                cmd.Parameters.Add(param_email);
+
+                SqlParameter param_date = new SqlParameter("@now_date", System.Data.SqlDbType.Int);
+                param_date.Value = unixTimestamp;
+                cmd.Parameters.Add(param_date);
 
                 SqlDataReader dr = cmd.ExecuteReader();
                 return true;
@@ -116,12 +122,10 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static int InsertNotice(SqlConnection con, NoticeModel notice)
+        public static int InsertNotice(SqlConnection con, NoticeModel notice, int unixTimestamp)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
                 cmd.CommandText = DB_QueryStrings.INSERT_NOTICE + ";" + DB_QueryStrings.SELECT_SCOPE_IDENTITY;
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
@@ -140,11 +144,9 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static int InsertEvent(SqlConnection con, EventModel ev) {
+        public static int InsertEvent(SqlConnection con, EventModel ev, int unixTimestamp) {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
                 cmd.CommandText = DB_QueryStrings.INSERT_EVENT + ";" + DB_QueryStrings.SELECT_SCOPE_IDENTITY;
 
                 SqlParameter param_serv_id = new SqlParameter("@serv_id", System.Data.SqlDbType.Int);
@@ -167,12 +169,10 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool InsertRanking(SqlConnection con, RankingModel rank)
+        public static bool InsertRanking(SqlConnection con, RankingModel rank, int unixTimestamp)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {
-                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
                 cmd.CommandText = DB_QueryStrings.INSERT_RANKING;
 
                 SqlParameter param_user_email = new SqlParameter("@user_email", System.Data.SqlDbType.VarChar, 100);

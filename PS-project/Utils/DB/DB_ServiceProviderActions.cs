@@ -1,8 +1,9 @@
 ﻿using PS_project.Models;
 using PS_project.Models.Exceptions;
 using PS_project.Models.NotificationModel;
-using System.Collections.Generic;
+using System;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace PS_project.Utils.DB
 {
@@ -96,9 +97,22 @@ namespace PS_project.Utils.DB
                     {
                         throw new InvalidServicePermissionException("User "+email+" doesn't have permission to handle service "+service.name+" with id "+service.id);
                     }
-                    DB_Inserts.InsertNotice(con, notice);
+                    int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    DB_Inserts.InsertNotice(con, notice, unixTimestamp);
 
-                    List<string> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, notice.service_id);
+                    List<DeviceModel> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, notice.service_id);
+                    devices.ForEach(d =>
+                    {
+                        var diff = unixTimestamp - d.last_used;
+                        if (diff > Const_Strings.TIME_DIFFERENCE)
+                        {
+                            DB_Deletes.DeleteDevice(con, d);
+                            d.last_used = -1;
+                        }
+                    });
+
+                    devices.RemoveAll(d => d.last_used == -1);
+
                     PushObjectModel push = new PushObjectModel("Nova notícia do serviço "+service.name, notice.text, service.id, service.name);
                     FcmHandler.PushNotification(devices, push);                
 
@@ -150,10 +164,21 @@ namespace PS_project.Utils.DB
                     {
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }
+                    int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    DB_Inserts.InsertEvent(con, ev, unixTimestamp);
 
-                    DB_Inserts.InsertEvent(con, ev);
+                    List<DeviceModel> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, ev.service_id);
+                    devices.ForEach(d =>
+                    {
+                        var diff = unixTimestamp - d.last_used;
+                        if (diff > Const_Strings.TIME_DIFFERENCE)
+                        {
+                            DB_Deletes.DeleteDevice(con, d);
+                            d.last_used = -1;
+                        }
+                    });
 
-                    List<string> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, ev.service_id);
+                    devices.RemoveAll(d => d.last_used == -1);
                     PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_date.ToString(), ev.service_id, service.name);
                     FcmHandler.PushNotification(devices, push);
 

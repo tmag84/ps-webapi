@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using PS_project.Models;
 using PS_project.Models.Exceptions;
 using PS_project.Models.NotificationModel;
 
@@ -14,7 +15,7 @@ namespace PS_project.Utils
         private const string API_KEY = "AAAAF8zfOn0:APA91bHGncBxTbdD3Sad9hroIPuXJbBBgqhYx7gxRBthTYunUzrN_wSUx31R7HBw3MJnvR1qcrtKiFTMH4krMeKo3l3cwFD9nB2MflNN4-HLaidff9H7zg6B2_uu-ktunBJ04-Z3ayIG";
         private const string SENDER_ID = "102221429373";      
 
-        public static void PushNotification(List<string> devices, PushObjectModel obj)
+        public static void PushNotification(List<DeviceModel> devices, PushObjectModel obj)
         {
             try
             {                
