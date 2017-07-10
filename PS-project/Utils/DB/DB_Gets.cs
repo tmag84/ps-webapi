@@ -125,11 +125,11 @@ namespace PS_project.Utils.DB
             service.n_subscribers = GetTotatServiceSubscribers(con, service.id);
 
             service.service_events = DB_Gets.GetEvents(con, service.id)
-                .OrderBy(ev => ev.event_date)
+                .OrderByDescending(ev => ev.event_date)
                 .ToList();
 
             service.service_notices = DB_Gets.GetNotices(con, service.id)
-                .OrderByDescending(notice => notice.creation_date)
+                .OrderBy(notice => notice.creation_date)
                 .ToList();
 
             service.service_rankings = DB_Gets.GetRankings(con, service.id)
