@@ -204,7 +204,7 @@ namespace PS_project.Controllers
 
         [HttpGet, Route("get-user-events")]
         [Authorize]
-        public HttpResponseMessage GetUserEvents(int page=1, string sortOrder=Const_Strings.SORT_BY_CREATION_DATE_DESC)
+        public HttpResponseMessage GetUserEvents(int page=1, string sortOrder=Const_Strings.SORT_BY_CREATION_DATE_ASC)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
