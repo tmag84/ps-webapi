@@ -443,8 +443,7 @@ namespace PS_project.Utils.DB
                         data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
                     }
                     string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-                    DeviceModel device = (DeviceModel)JsonConvert.DeserializeObject(json, typeof(DeviceModel));
-                    list_devices.Add(device);
+                    list_devices.Add((DeviceModel)JsonConvert.DeserializeObject(json, typeof(DeviceModel)));
                 }
                 return list_devices;
             }
