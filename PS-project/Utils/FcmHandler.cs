@@ -23,11 +23,12 @@ namespace PS_project.Utils
                 tRequest.Method = "post";
                 tRequest.ContentType = "application/json";
 
-                var registered_devices = String.Join(",", devices);
+                List<String> devices_id = new List<String>();
+                devices.ForEach(d => devices_id.Add(d.device_id));
 
                 var send = new
                 {
-                    registration_ids = devices.ToArray(),
+                    registration_ids = devices_id,
                     notification = new
                     {
                         body = obj.body,
