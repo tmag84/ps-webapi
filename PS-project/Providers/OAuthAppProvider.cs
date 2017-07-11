@@ -39,14 +39,10 @@ namespace PS_project.Providers
                         var ticket = new AuthenticationTicket(identity, props);
                         context.Validated(ticket);
                     }
-
+                    /*
                     var data = context.Request.ReadFormAsync();
                     var device_id = data.Result.Get("device_id");
-
-                    if (device_id!=null)
-                    {
-                        DB_ServiceUserActions.RegisterDevice(email, device_id);
-                    }
+                    */
                 }
                 else
                 {

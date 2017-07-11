@@ -373,6 +373,31 @@ namespace PS_project.Controllers
             return resp;
         }
 
+        [HttpPost, Route("register-device")]
+        [Authorize]
+        public HttpResponseMessage RegisterUserDevice(DeviceModel device)
+        {
+            HttpResponseMessage resp;
+            var uriMaker = Request.TryGetUriMakerFor<UserController>();
+            try
+            {
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+                DB_ServiceUserActions.RegisterDevice(email, device.device_id);
+                resp = Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (PS_Exception e)
+            {
+                ErrorModel error = e.GetError();
+                error.instance = uriMaker.UriFor(c => c.RegisterUserDevice(device)).AbsoluteUri;
+                resp = Request.CreateResponse<ErrorModel>(
+                    error.status, error,
+                    new JsonMediaTypeFormatter(),
+                    new MediaTypeHeaderValue("application/problem+json"));
+            }
+
+            return resp;
+        }
+
         [HttpPut, Route("edit-password")]
         [Authorize]
         public HttpResponseMessage EditUserPassword(string new_password)

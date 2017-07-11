@@ -71,7 +71,7 @@ namespace PS_project.Utils.DB
 
                 cmd.CommandText = DB_QueryStrings.INSERT_DEVICE_REGISTRATION;
 
-                SqlParameter param_device_id = new SqlParameter("@device_id", System.Data.SqlDbType.VarChar, 100);
+                SqlParameter param_device_id = new SqlParameter("@device_id", System.Data.SqlDbType.VarChar, 300);
                 param_device_id.Value = device_id;
                 cmd.Parameters.Add(param_device_id);
 
