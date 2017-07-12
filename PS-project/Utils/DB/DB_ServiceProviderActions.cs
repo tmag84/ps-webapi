@@ -179,7 +179,7 @@ namespace PS_project.Utils.DB
                     });
 
                     devices.RemoveAll(d => d.last_used == -1);
-                    PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_date.ToString(), ev.service_id, service.name);
+                    PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_begin.ToString(), ev.service_id, service.name);
                     FcmHandler.PushNotification(devices, push);
 
                     return true;

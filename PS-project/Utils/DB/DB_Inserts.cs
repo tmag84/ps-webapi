@@ -161,9 +161,13 @@ namespace PS_project.Utils.DB
                 param_now_date.Value = unixTimestamp;
                 cmd.Parameters.Add(param_now_date);
 
-                SqlParameter param_event_date = new SqlParameter("@event_date", System.Data.SqlDbType.Int);
-                param_event_date.Value = ev.event_date;
-                cmd.Parameters.Add(param_event_date);
+                SqlParameter param_event_begin = new SqlParameter("@event_begin", System.Data.SqlDbType.Int);
+                param_event_begin.Value = ev.event_begin;
+                cmd.Parameters.Add(param_event_begin);
+
+                SqlParameter param_event_end = new SqlParameter("@event_end", System.Data.SqlDbType.Int);
+                param_event_end.Value = ev.event_end;
+                cmd.Parameters.Add(param_event_end);
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
             }

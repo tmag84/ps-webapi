@@ -24,10 +24,10 @@ namespace PS_project.Utils
             switch(sortOrder)
             {
                 case Const_Strings.SORT_BY_CREATION_DATE_ASC:
-                    return list.OrderBy(ev => ev.event_date);
+                    return list.OrderBy(ev => ev.event_begin);
                 case Const_Strings.SORT_BY_CREATION_DATE_DESC:
-                    return list.OrderByDescending(ev => ev.event_date);
-                default: return list.OrderByDescending(ev => ev.event_date);
+                    return list.OrderByDescending(ev => ev.event_begin);
+                default: return list.OrderByDescending(ev => ev.event_begin);
             }
         }
     }

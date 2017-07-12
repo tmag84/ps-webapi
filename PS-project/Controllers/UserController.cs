@@ -223,7 +223,8 @@ namespace PS_project.Controllers
                     {
                         UserEventModel model = new UserEventModel();
                         model.creation_date = ev.creation_date;
-                        model.event_date = ev.event_date;
+                        model.event_begin = ev.event_begin;
+                        model.event_end = ev.event_end;
                         model.id = ev.id;
                         model.text = ev.text;
                         model.service_id = service.id;
