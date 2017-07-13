@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using PS_project.Utils.DB;
 using PS_project.Models;
+using PS_project.Models.Exceptions;
 
 namespace PS_project.Providers
 {
@@ -16,16 +17,17 @@ namespace PS_project.Providers
             {
                 context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
                 var email = context.UserName;
-                var password = context.Password;                
-
-                if (DB_UserActions.LogUser(email, password))
+                var password = context.Password;     
+                
+                try
                 {
+                    DB_UserActions.LogUser(email, password);
                     var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                     identity.AddClaim(new Claim("sub", context.UserName));
                     identity.AddClaim(new Claim("role", "user"));
 
                     ServiceUserModel user = DB_ServiceUserActions.GetServiceUser(email);
-                    if (user==null)
+                    if (user == null)
                     {
                         context.Validated(identity);
 
@@ -39,12 +41,8 @@ namespace PS_project.Providers
                         var ticket = new AuthenticationTicket(identity, props);
                         context.Validated(ticket);
                     }
-                    /*
-                    var data = context.Request.ReadFormAsync();
-                    var device_id = data.Result.Get("device_id");
-                    */
                 }
-                else
+                catch(PS_Exception e)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                 }
