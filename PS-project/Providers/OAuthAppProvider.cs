@@ -44,7 +44,7 @@ namespace PS_project.Providers
                 }
                 catch(PS_Exception e)
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    context.SetError("invalid_grant", e.GetError().detail);
                 }
             });            
         }
