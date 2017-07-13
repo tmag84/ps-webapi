@@ -7,6 +7,7 @@ namespace PS_project.Models
         public int service_id { get; set; }
         public int service_type { get; set; }
         public string service_name { get; set; }
+        public string service_location { get; set; }
         public int id { get; set; }
         public string text { get; set; }
         public long creation_date { get; set; }

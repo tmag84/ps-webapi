@@ -227,6 +227,7 @@ namespace PS_project.Controllers
                         model.event_end = ev.event_end;
                         model.id = ev.id;
                         model.text = ev.text;
+                        model.service_location = service.contact_location;
                         model.service_id = service.id;
                         model.service_name = service.name;
                         model.service_type = service.service_type;
