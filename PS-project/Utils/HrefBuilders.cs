@@ -11,7 +11,7 @@ namespace PS_project.Utils
         public static void BuildServiceHrefs(UriMaker<ProviderController> uriMaker, ProviderResponseModel pr)
         {
             ServiceModel service = pr.service;
-            service.Href = uriMaker.UriFor(c => c.GetService(service.id)).AbsolutePath;
+            service.Href = uriMaker.UriFor(c => c.GetService()).AbsolutePath;
             service.Links.Add(new Link("create-event",uriMaker.UriFor(c => c.CreateEvent(null)).AbsolutePath));
             service.Links.Add(new Link("create-notice", uriMaker.UriFor(c => c.CreateNotice(null)).AbsolutePath));
 

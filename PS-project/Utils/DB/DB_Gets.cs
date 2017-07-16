@@ -273,7 +273,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        private static List<RankingModel> GetRankings(SqlConnection con, int service_id)
+        public static List<RankingModel> GetRankings(SqlConnection con, int service_id)
         {
             using (SqlCommand cmd = con.CreateCommand())
             {

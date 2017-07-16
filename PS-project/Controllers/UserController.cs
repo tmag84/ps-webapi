@@ -18,7 +18,7 @@ namespace PS_project.Controllers
     [RoutePrefix(Const_Strings.USER_ROUTE_PREFIX)]
     public class UserController : ApiController
     {
-        private const int DEFAULT_PAGESIZE = 30;        
+        private const int DEFAULT_PAGESIZE = 8;        
 
         [HttpPost, Route("register")]
         public HttpResponseMessage RegisterUser(UserRegistrationModel registration)
@@ -278,7 +278,7 @@ namespace PS_project.Controllers
         public HttpResponseMessage GetService(int id)
         {
             HttpResponseMessage resp;
-            var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
+            var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
                 ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithServiceId(id);

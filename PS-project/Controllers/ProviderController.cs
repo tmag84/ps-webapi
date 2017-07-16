@@ -1,6 +1,7 @@
 ﻿using PS_project.Utils;
 using PS_project.Utils.DB;
 using PS_project.Models;
+using PS_project.Models.ResponseModels;
 using PS_project.Models.Exceptions;
 using Drum;
 using System.Net;
@@ -65,22 +66,25 @@ namespace PS_project.Controllers
             return resp;
         }
 
-        [HttpGet, Route("get-service")]
+        [HttpGet, Route("get-rankings")]
         [Authorize]
-        public HttpResponseMessage GetService(int id)
+        public HttpResponseMessage GetServiceRankings()
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<ProviderController>();
             try
             {
-                ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithServiceId(id);
-                HrefBuilders.BuildServiceHrefs(uriMaker, ps_hal);
-                resp = Request.CreateResponse<ProviderResponseModel>(HttpStatusCode.OK, ps_hal);
+                string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+
+                ProviderRankingsResponseModel provider_hal = new ProviderRankingsResponseModel();
+                provider_hal.service_rankings = DB_ServiceProviderActions.GetServiceWithProviderEmail(email).service.service_rankings;
+
+                resp = Request.CreateResponse<ProviderRankingsResponseModel> (HttpStatusCode.OK, provider_hal);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.GetService(id)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.GetServiceRankings()).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),
@@ -101,7 +105,7 @@ namespace PS_project.Controllers
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
                 DB_ServiceProviderActions.CreateNotice(email, notice);
-                return GetService(notice.service_id);
+                resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
@@ -126,7 +130,7 @@ namespace PS_project.Controllers
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
                 DB_ServiceProviderActions.DeleteNotice(email, notice);
-                return GetService(notice.service_id);
+                resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
@@ -151,7 +155,7 @@ namespace PS_project.Controllers
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
                 DB_ServiceProviderActions.CreateEvent(email, ev);
-                return GetService(ev.service_id);
+                resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
@@ -176,8 +180,7 @@ namespace PS_project.Controllers
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
                 DB_ServiceProviderActions.DeleteEvent(email, ev);
-                return GetService(ev.service_id);
-
+                resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
@@ -227,7 +230,7 @@ namespace PS_project.Controllers
                 service.provider_email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
                 DB_ServiceProviderActions.EditServiceInfo(service);
-                return GetService(service.id);
+                resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {

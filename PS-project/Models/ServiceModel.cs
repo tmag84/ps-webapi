@@ -8,6 +8,7 @@ namespace PS_project.Models
         public int id { get; set; }
         public string provider_email { get; set; }
         public string name { get; set; }
+        public string description { get; set; }
         public int contact_number { get; set; }
         public string contact_name { get; set; }
         public string contact_location { get; set; }
