@@ -4,10 +4,11 @@
     {
         public string email { get; set; }
         public string password { get; set; }
-        public string name { get; set; }
-        public int contact_number { get; set; }
-        public string contact_name { get; set; }
-        public string contact_location { get; set; }
-        public int serv_type { get; set; }
+        public string service_name { get; set; }
+        public string service_description { get; set; }
+        public int service_contact_number { get; set; }
+        public string service_contact_name { get; set; }
+        public string service_contact_location { get; set; }
+        public int service_type { get; set; }
     }
 }

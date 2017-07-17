@@ -99,23 +99,27 @@ namespace PS_project.Utils.DB
                 cmd.Parameters.Add(param_email);
 
                 SqlParameter param_name = new SqlParameter("@name", System.Data.SqlDbType.VarChar, 150);
-                param_name.Value = registration.name;
+                param_name.Value = registration.service_name;
                 cmd.Parameters.Add(param_name);
 
+                SqlParameter param_description = new SqlParameter("@description", System.Data.SqlDbType.VarChar, 400);
+                param_description.Value = registration.service_description;
+                cmd.Parameters.Add(param_description);
+
                 SqlParameter param_cont_number = new SqlParameter("@contact_number", System.Data.SqlDbType.Int);
-                param_cont_number.Value = registration.contact_number == 0 ? 0 : registration.contact_number;
+                param_cont_number.Value = registration.service_contact_number == 0 ? 0 : registration.service_contact_number;
                 cmd.Parameters.Add(param_cont_number);
 
                 SqlParameter param_cont_name = new SqlParameter("@contact_name", System.Data.SqlDbType.VarChar, 100);
-                param_cont_name.Value = registration.contact_name == null ?  "" : registration.contact_name;
+                param_cont_name.Value = registration.service_contact_name == null ?  "" : registration.service_contact_name;
                 cmd.Parameters.Add(param_cont_name);
 
                 SqlParameter param_cont_loc = new SqlParameter("@contact_location", System.Data.SqlDbType.VarChar, 150);
-                param_cont_loc.Value = registration.contact_location == null ? "" : registration.contact_location;
+                param_cont_loc.Value = registration.service_contact_location == null ? "" : registration.service_contact_location;
                 cmd.Parameters.Add(param_cont_loc);
 
                 SqlParameter param_serv_type = new SqlParameter("@service_type", System.Data.SqlDbType.Int);
-                param_serv_type.Value = registration.serv_type;
+                param_serv_type.Value = registration.service_type;
                 cmd.Parameters.Add(param_serv_type);
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
