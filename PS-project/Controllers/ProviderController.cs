@@ -196,7 +196,7 @@ namespace PS_project.Controllers
 
         [HttpPut, Route("edit-password")]
         [Authorize]
-        public HttpResponseMessage EditUserPassword(string new_password)
+        public HttpResponseMessage EditUserPassword(UserRegistrationModel user)
         {
             HttpResponseMessage resp;
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
@@ -204,13 +204,13 @@ namespace PS_project.Controllers
             {
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
-                DB_UserActions.EditUserPassword(email, new_password);
+                DB_UserActions.EditUserPassword(email, user.password);
                 resp = Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (PS_Exception e)
             {
                 ErrorModel error = e.GetError();
-                error.instance = uriMaker.UriFor(c => c.EditUserPassword(new_password)).AbsoluteUri;
+                error.instance = uriMaker.UriFor(c => c.EditUserPassword(user)).AbsoluteUri;
                 resp = Request.CreateResponse<ErrorModel>(
                     error.status, error,
                     new JsonMediaTypeFormatter(),

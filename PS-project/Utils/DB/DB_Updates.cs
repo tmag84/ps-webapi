@@ -11,11 +11,11 @@ namespace PS_project.Utils.DB
             {
                 cmd.CommandText = DB_QueryStrings.UPDATE_USER_PASSWORD;
 
-                SqlParameter param_password = new SqlParameter("@password", System.Data.SqlDbType.Char, 64);
+                SqlParameter param_password = new SqlParameter("@pass", System.Data.SqlDbType.Char, 64);
                 param_password.Value = user.hashedpassword;
                 cmd.Parameters.Add(param_password);
 
-                SqlParameter param_email = new SqlParameter("@email", System.Data.SqlDbType.VarChar,100);
+                SqlParameter param_email = new SqlParameter("@provider_email", System.Data.SqlDbType.VarChar,100);
                 param_email.Value = user.email;
                 cmd.Parameters.Add(param_email);
 
