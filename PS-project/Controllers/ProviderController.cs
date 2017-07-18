@@ -104,8 +104,8 @@ namespace PS_project.Controllers
             {
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
-                DB_ServiceProviderActions.CreateNotice(email, notice);
-                resp = Request.CreateResponse(HttpStatusCode.OK);
+                var _id = DB_ServiceProviderActions.CreateNotice(email, notice);
+                resp = Request.CreateResponse<object>(HttpStatusCode.OK,new {id= _id });
             }
             catch (PS_Exception e)
             {
@@ -154,8 +154,8 @@ namespace PS_project.Controllers
             {
                 string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 
-                DB_ServiceProviderActions.CreateEvent(email, ev);
-                resp = Request.CreateResponse(HttpStatusCode.OK);
+                var _id = DB_ServiceProviderActions.CreateEvent(email, ev);
+                resp = Request.CreateResponse<object>(HttpStatusCode.OK,new {id=_id});
             }
             catch (PS_Exception e)
             {

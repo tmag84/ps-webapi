@@ -83,7 +83,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool CreateNotice(string email, NoticeModel notice)
+        public static int CreateNotice(string email, NoticeModel notice)
         {
             try
             {
@@ -98,9 +98,13 @@ namespace PS_project.Utils.DB
                         throw new InvalidServicePermissionException("User "+email+" doesn't have permission to handle service "+service.name+" with id "+service.id);
                     }
                     int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                    DB_Inserts.InsertNotice(con, notice, unixTimestamp);
+                    var id = DB_Inserts.InsertNotice(con, notice, unixTimestamp);
 
                     List<DeviceModel> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, notice.service_id);
+                    if (devices==null || devices.Count==0)
+                    {
+                        return id;
+                    }
                     devices.ForEach(d =>
                     {
                         var diff = unixTimestamp - d.last_used;
@@ -116,7 +120,7 @@ namespace PS_project.Utils.DB
                     PushObjectModel push = new PushObjectModel("Nova notícia do serviço "+service.name, notice.text, service.id, service.name);
                     FcmHandler.PushNotification(devices, push);                
 
-                    return true;
+                    return id;
                 }
             }
             catch (SqlException e)
@@ -150,7 +154,7 @@ namespace PS_project.Utils.DB
             }
         }
 
-        public static bool CreateEvent(string email, EventModel ev)
+        public static int CreateEvent(string email, EventModel ev)
         {
             try
             {
@@ -165,9 +169,13 @@ namespace PS_project.Utils.DB
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }
                     int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                    DB_Inserts.InsertEvent(con, ev, unixTimestamp);
+                    var id = DB_Inserts.InsertEvent(con, ev, unixTimestamp);
 
                     List<DeviceModel> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, ev.service_id);
+                    if (devices == null || devices.Count == 0)
+                    {
+                        return id;
+                    }
                     devices.ForEach(d =>
                     {
                         var diff = unixTimestamp - d.last_used;
@@ -182,7 +190,7 @@ namespace PS_project.Utils.DB
                     PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_begin.ToString(), ev.service_id, service.name);
                     FcmHandler.PushNotification(devices, push);
 
-                    return true;
+                    return id;
                 }
             }
             catch (SqlException e)
@@ -207,6 +215,28 @@ namespace PS_project.Utils.DB
                     }
 
                     DB_Deletes.DeleteEvent(con, ev);
+
+                    List<DeviceModel> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, ev.service_id);
+                    if (devices == null || devices.Count == 0)
+                    {
+                        return true;
+                    }
+
+                    int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    devices.ForEach(d =>
+                    {
+                        var diff = unixTimestamp - d.last_used;
+                        if (diff > Const_Strings.TIME_DIFFERENCE)
+                        {
+                            DB_Deletes.DeleteDevice(con, d);
+                            d.last_used = -1;
+                        }
+                    });
+
+                    devices.RemoveAll(d => d.last_used == -1);
+                    PushObjectModel push = new PushObjectModel("Evento do serviço " + service.name+" foi removido", "Evento " + ev.text + " para o dia " + ev.event_begin.ToString(), ev.service_id, service.name);
+                    FcmHandler.PushNotification(devices, push);
+
                     return true;
                 }
             }

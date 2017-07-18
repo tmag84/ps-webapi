@@ -33,6 +33,10 @@ namespace PS_project.Utils.DB
                 SqlParameter param_serv_name = new SqlParameter("@serv_name", System.Data.SqlDbType.VarChar, 150);
                 param_serv_name.Value = service.name;
                 cmd.Parameters.Add(param_serv_name);
+				
+				SqlParameter param_description = new SqlParameter("@c_num", System.Data.SqlDbType.VarChar, 400);
+                param_description.Value = service.description;
+                cmd.Parameters.Add(param_description);
 
                 SqlParameter param_con_num = new SqlParameter("@c_num", System.Data.SqlDbType.Int);
                 param_con_num.Value = service.contact_number;
