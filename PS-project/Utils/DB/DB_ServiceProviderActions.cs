@@ -83,6 +83,24 @@ namespace PS_project.Utils.DB
             }
         }
 
+        public static NoticeModel GetNotice(int service_id, int notice_id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection())
+                {
+                    con.ConnectionString = DB_Config.GetConnectionString();
+                    con.Open();
+
+                    return DB_Gets.GetNotice(con, service_id, notice_id);
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new InternalDBException(e.ToString());
+            }
+        }
+
         public static int CreateNotice(string email, NoticeModel notice)
         {
             try
@@ -146,6 +164,24 @@ namespace PS_project.Utils.DB
 
                     DB_Deletes.DeleteNotice(con, notice);
                     return true;
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new InternalDBException(e.ToString());
+            }
+        }
+
+        public static EventModel GetEvent(int service_id, int event_id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection())
+                {
+                    con.ConnectionString = DB_Config.GetConnectionString();
+                    con.Open();
+
+                    return DB_Gets.GetEvent(con,service_id, event_id);
                 }
             }
             catch (SqlException e)

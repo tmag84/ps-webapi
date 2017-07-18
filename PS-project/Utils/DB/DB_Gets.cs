@@ -209,6 +209,40 @@ namespace PS_project.Utils.DB
             }
         }
 
+        public static EventModel GetEvent(SqlConnection con, int service_id, int event_id)
+        {
+            using (SqlCommand cmd = con.CreateCommand())
+            {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+                cmd.CommandText = DB_QueryStrings.GET_EVENT;
+
+                SqlParameter param_service_id = new SqlParameter("@id", System.Data.SqlDbType.Int);
+                param_service_id.Value = service_id;
+                cmd.Parameters.Add(param_service_id);
+
+                SqlParameter param_event_id = new SqlParameter("@event_id", System.Data.SqlDbType.Int);
+                param_event_id.Value = event_id;
+                cmd.Parameters.Add(param_event_id);
+
+                EventModel ev = new EventModel();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (!dr.HasRows) return null;
+
+                while (dr.Read())
+                {
+                    var data = new Dictionary<string, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                    }
+                    string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                    ev = (EventModel)JsonConvert.DeserializeObject(json, typeof(EventModel));
+                }
+                return ev;
+            }
+        }
+
         private static List<EventModel> GetEvents(SqlConnection con, int service_id)
         {
             using (SqlCommand cmd = con.CreateCommand())
@@ -241,6 +275,40 @@ namespace PS_project.Utils.DB
                     list_events.Add((EventModel)JsonConvert.DeserializeObject(json, typeof(EventModel)));
                 }
                 return list_events;
+            }
+        }
+
+        public static NoticeModel GetNotice(SqlConnection con, int service_id, int notice_id)
+        {
+            using (SqlCommand cmd = con.CreateCommand())
+            {
+                int unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+                cmd.CommandText = DB_QueryStrings.GET_NOTICE;
+
+                SqlParameter param_service_id = new SqlParameter("@id", System.Data.SqlDbType.Int);
+                param_service_id.Value = service_id;
+                cmd.Parameters.Add(param_service_id);
+
+                SqlParameter param_event_id = new SqlParameter("@notice_id", System.Data.SqlDbType.Int);
+                param_event_id.Value = notice_id;
+                cmd.Parameters.Add(param_event_id);
+
+                NoticeModel notice = new NoticeModel();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (!dr.HasRows) return null;
+
+                while (dr.Read())
+                {
+                    var data = new Dictionary<string, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        data.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                    }
+                    string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                    notice = (NoticeModel)JsonConvert.DeserializeObject(json, typeof(NoticeModel));
+                }
+                return notice;
             }
         }
 

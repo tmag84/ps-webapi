@@ -10,7 +10,9 @@
         public const string GET_TOTAL_SERVICE_SUBSCRIBERS = "select count(*) from Subscriber where service_id=@serv_id";
         public const string GET_SERVICE_AVERAGE_RANKING = "select avg(value) from Ranking where service_id=@serv_id";
         public const string GET_SERVICE_EVENTS = "select * from event where service_id=@id and event_begin>=@now_date";
+        public const string GET_EVENT = "select * from event where service_id=@id and id=@event_id";
         public const string GET_SERVICE_NOTICES = "select * from notice where service_id=@id";
+        public const string GET_NOTICE = "select * from notice where service_id=@id and id=@notice_id";
         public const string GET_SERVICE_RANKINGS = "select * from ranking where service_id=@id";
         public const string GET_SERVICE_TYPES = "select * from ServiceType";
         public const string GET_SUBSCRIBED_SERVICES = "select * from Service inner join Subscriber on Service.id=Subscriber.service_id where Subscriber.user_email=@email";
