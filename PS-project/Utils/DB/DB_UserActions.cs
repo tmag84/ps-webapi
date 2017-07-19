@@ -65,17 +65,20 @@ namespace PS_project.Utils.DB
                     con.Open();
 
                     ServiceProviderModel provider = DB_Gets.GetServiceProvider(con, registration.email);
-                    if (provider != null)
+                    if (provider == null)
                     {
-                        throw new DuplicateUserException("The email " + registration.email + " is already in use");
+                        string salt = Hashing.GetSalt();
+                        string hashed_password = Hashing.GetHashed(registration.password, salt);
+                        DB_Inserts.InsertUser(con, registration.email, hashed_password, salt);
+                        DB_Inserts.InsertServiceProvider(con, registration);
+                        int service_id = DB_Inserts.InsertService(con, registration);
+                        if (service_id == -1)
+                        {
+                            throw new InternalDBException("An error occured with the database after a sucesseful insertion");
+                        }
+                        return service_id;
                     }
-                    DB_Inserts.InsertServiceProvider(con, registration);
-                    int service_id = DB_Inserts.InsertService(con, registration);
-                    if (service_id == -1)
-                    {
-                        throw new InternalDBException("An error occured with the database after a sucesseful insertion");
-                    }
-                    return service_id;
+                    throw new DuplicateUserException("User " + registration.email + " already exists.");                    
                 }
             }
             catch (SqlException e)

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="PS_project.Controllers.ProviderController">
-    <Position X="0.5" Y="4.5" Width="1.5" />
+    <Position X="0.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAoAAAAAAgAAAAEAAABAAAAAIAACAAAAEA=</HashCode>
+      <HashCode>AAAAAAAAAAAoAAAAAAgAABAEAAABAAAAAIAACAAAAEA=</HashCode>
       <FileName>Controllers\ProviderController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -13,78 +13,78 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="PS_project.Controllers.UserController">
-    <Position X="2.5" Y="4.5" Width="1.5" />
+    <Position X="2.5" Y="4.25" Width="1.5" />
     <InheritanceLine Type="System.Web.Http.ApiController" FixedFromPoint="true">
       <Path>
         <Point X="2.25" Y="3.562" />
-        <Point X="2.25" Y="4.125" />
-        <Point X="3.25" Y="4.125" />
-        <Point X="3.25" Y="4.5" />
+        <Point X="2.25" Y="3.875" />
+        <Point X="3.25" Y="3.875" />
+        <Point X="3.25" Y="4.25" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>EAAAAACAAAAAEAgAAAIgAAAAAQAAAAAAAAAkCCAAAEA=</HashCode>
+      <HashCode>EAAAAACAAAAAEAoAAAIgAAAAAQAAAAAAAAAkCCAAAEA=</HashCode>
       <FileName>Controllers\UserController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Config">
-    <Position X="5.5" Y="4" Width="2" />
+    <Position X="16.25" Y="4.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Config.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Deletes">
-    <Position X="12.75" Y="6" Width="2" />
+    <Position X="16.25" Y="6.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAoAAAAQAAAAAAAAAAAAAAAAAgAAAgAAAA=</HashCode>
       <FileName>Utils\DB\DB_Deletes.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Gets">
-    <Position X="10.25" Y="3" Width="2.25" />
+    <Position X="11.25" Y="3" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAkAAAAAAEAAAAAIAEIAgAAAAAAAJAEAIQAAAACEA=</HashCode>
+      <HashCode>AAAAkAAEAAAEAAAAAIAEIAgAAAACAAJAEAIQAAAACEA=</HashCode>
       <FileName>Utils\DB\DB_Gets.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Inserts">
-    <Position X="12.75" Y="3" Width="1.75" />
+    <Position X="14" Y="3" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAABAAQAAAIAAgAAQAAEAkAQAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Inserts.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_QueryStrings" Collapsed="true">
-    <Position X="5.5" Y="3" Width="1.5" />
+    <Position X="11.25" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>MAAACADAABAghBAAAACAQAIAUACYigJCwCgAACAAAAA=</HashCode>
+      <HashCode>MAAACADAABAgpBAIAACAQAKAUACYigJCwCgAACAAAAA=</HashCode>
       <FileName>Utils\DB\DB_QueryStrings.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_ServiceProviderActions">
-    <Position X="7.75" Y="5.75" Width="2.25" />
+    <Position X="8.5" Y="5.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAoAAQAAIgAIAAAAAAAAAAAAIAAAAAAAEA=</HashCode>
+      <HashCode>AAAAAAAAAAAoAAQAAIgAIAAAAAACAAAAAIAAAAAACEA=</HashCode>
       <FileName>Utils\DB\DB_ServiceProviderActions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_ServiceUserActions">
-    <Position X="7.75" Y="3" Width="2" />
+    <Position X="8.5" Y="3" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAEAgAAABAAAAAAQAAAAIAAAAAAAAAAEA=</HashCode>
+      <HashCode>AAIAAAAAAAAEEAgAAABAAAAAAQAAAAIAAAAAAAAAAEA=</HashCode>
       <FileName>Utils\DB\DB_ServiceUserActions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_Updates">
-    <Position X="14.75" Y="3" Width="2" />
+    <Position X="16.25" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_Updates.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PS_project.Utils.DB.DB_UserActions">
-    <Position X="5.5" Y="5.75" Width="1.75" />
+    <Position X="14" Y="6.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>EAAAEAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Utils\DB\DB_UserActions.cs</FileName>
@@ -93,7 +93,7 @@
   <Class Name="PS_project.Providers.OAuthAppProvider">
     <Position X="26.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Providers\OAuthAppProvider.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -149,7 +149,7 @@
   <Class Name="PS_project.Utils.ClaimsHandler">
     <Position X="20.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\ClaimsHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
