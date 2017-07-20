@@ -134,10 +134,8 @@ namespace PS_project.Utils.DB
                     });
 
                     devices.RemoveAll(d => d.last_used == -1);
-
-                    PushObjectModel push = new PushObjectModel("Nova notícia do serviço "+service.name, notice.text, service.id, service.name);
-                    FcmHandler.PushNotification(devices, push);                
-
+					
+					FcmHandler.PushNotice(devices, service.id, service.name, notice.id, notice.text);
                     return id;
                 }
             }
@@ -162,7 +160,7 @@ namespace PS_project.Utils.DB
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }
 
-                    DB_Deletes.DeleteNotice(con, notice);
+                    DB_Deletes.DeleteNotice(con, notice);					
                     return true;
                 }
             }
@@ -223,9 +221,7 @@ namespace PS_project.Utils.DB
                     });
 
                     devices.RemoveAll(d => d.last_used == -1);
-                    PushObjectModel push = new PushObjectModel("Nova evento do serviço " + service.name, "Evento "+ev.text+" para o dia "+ev.event_begin.ToString(), ev.service_id, service.name);
-                    FcmHandler.PushNotification(devices, push);
-
+                    FcmHandler.PushCreatedEvent(devices, service.id, service.name, ev.text, ev.event_begin);
                     return id;
                 }
             }
@@ -249,8 +245,11 @@ namespace PS_project.Utils.DB
                     {
                         throw new InvalidServicePermissionException("User " + email + " doesn't have permission to handle service " + service.name + " with id " + service.id);
                     }
-
-                    DB_Deletes.DeleteEvent(con, ev);
+					
+					EventModel eventToDelete = DB_Gets.GetEvent(con,service.id, ev.id);
+					if (eventToDelete.id == ev.id) {
+						DB_Deletes.DeleteEvent(con, ev);
+					}                    
 
                     List<DeviceModel> devices = DB_Gets.GetServiceSubscribersRegistredDevices(con, ev.service_id);
                     if (devices == null || devices.Count == 0)
@@ -270,9 +269,8 @@ namespace PS_project.Utils.DB
                     });
 
                     devices.RemoveAll(d => d.last_used == -1);
-                    PushObjectModel push = new PushObjectModel("Evento do serviço " + service.name+" foi removido", "Evento " + ev.text + " para o dia " + ev.event_begin.ToString(), ev.service_id, service.name);
-                    FcmHandler.PushNotification(devices, push);
-
+					
+                    FcmHandler.PushDeletedEvent(devices, service.id, service.name, eventToDelete.text, eventToDelete.event_begin);
                     return true;
                 }
             }

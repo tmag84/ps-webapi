@@ -13,33 +13,91 @@ namespace PS_project.Utils
     public class FcmHandler
     {
         private const string API_KEY = "AAAAF8zfOn0:APA91bHGncBxTbdD3Sad9hroIPuXJbBBgqhYx7gxRBthTYunUzrN_wSUx31R7HBw3MJnvR1qcrtKiFTMH4krMeKo3l3cwFD9nB2MflNN4-HLaidff9H7zg6B2_uu-ktunBJ04-Z3ayIG";
-        private const string SENDER_ID = "102221429373";      
+        private const string SENDER_ID = "102221429373";
+		
+        private static List<String> GetDevicesIdList(List<DeviceModel> devices)
+        {
+            List<String> devices_id = new List<String>();
+            devices.ForEach(d => devices_id.Add(d.device_id));
+            return devices_id;
+        }
 
-        public static void PushNotification(List<DeviceModel> devices, PushObjectModel obj)
+		public static void PushNotice(List<DeviceModel> devices, int service_id, string service_name, int notice_id, string notice_text) {
+            var send = new
+            {
+                registration_ids = GetDevicesIdList(devices),
+                notification = new
+                {
+                    body = notice_text,
+                    title = "Notícia do Serviço " + service_name + " criada.",   
+                    },
+                    data = new
+                    {
+                        service_id = service_id,
+                        service_name = service_name,
+                        notice_id = notice_id,
+                        notice_text = notice_text
+                    }
+                };
+			PushNotification(send);
+		}
+		
+		public static void PushCreatedEvent(List<DeviceModel> devices, int service_id, string service_name, string event_text, long event_begin) {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(event_begin);
+            var str = dtDateTime.ToString();
+
+            var send = new
+            {
+                registration_ids = GetDevicesIdList(devices),
+                notification = new
+                {
+                    body = event_text+" no dia "+str,
+                    title = "Evento do serviço " + service_name + " foi criado.",
+                },
+                data = new
+                {
+                    service_id = service_id,
+                    service_name = service_name,
+                    event_text = event_text,
+                    event_begin = event_begin
+                }
+            };
+            PushNotification(send);		
+		}
+
+        public static void PushDeletedEvent(List<DeviceModel> devices, int service_id, string service_name, string event_text, long event_begin)
+        {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(event_begin);
+            var str = dtDateTime.ToString();
+
+            var send = new
+            {
+                registration_ids = GetDevicesIdList(devices),
+                notification = new
+                {
+                    body = event_text + " no dia " + str,
+                    title = "Evento do serviço " + service_name + " foi cancelado.",
+                },
+                data = new
+                {
+                    service_id = service_id,
+                    service_name = service_name,
+                    event_text = event_text,
+                    event_begin = event_begin
+                }
+            };
+            PushNotification(send);
+        }
+
+        private static void PushNotification(object send)
         {
             try
             {                
                 WebRequest tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
                 tRequest.Method = "post";
-                tRequest.ContentType = "application/json";
-
-                List<String> devices_id = new List<String>();
-                devices.ForEach(d => devices_id.Add(d.device_id));
-
-                var send = new
-                {
-                    registration_ids = devices_id,
-                    notification = new
-                    {
-                        body = obj.body,
-                        title = obj.title   
-                    },
-                    data = new
-                    {
-                        service_id = obj.service_id,
-                        service_name = obj.service_name
-                    }
-                };
+                tRequest.ContentType = "application/json";                
 
                 var serializer = new JavaScriptSerializer();
                 var json = serializer.Serialize(send);
