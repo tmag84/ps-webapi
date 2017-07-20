@@ -175,9 +175,11 @@
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\Exceptions\InvalidNotificationPushException.cs" />
     <Compile Include="Models\Exceptions\InvalidServicePermissionException.cs" />
+    <Compile Include="Models\Exceptions\InvalidSubscriptionException.cs" />
     <Compile Include="Models\NoticeModel.cs" />
     <Compile Include="Models\NotificationModel\PushObjectModel.cs" />
     <Compile Include="Models\ResponseModels\ProviderRankingsResponseModel.cs" />
+    <Compile Include="Models\ResponseModels\UserServiceResponseModel.cs" />
     <Compile Include="Models\SubscriptionModel.cs" />
     <Compile Include="Models\ResponseModels\UserEventResponseModel.cs" />
     <Compile Include="Models\ServiceProviderModel.cs" />

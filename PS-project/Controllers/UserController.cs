@@ -283,18 +283,22 @@ namespace PS_project.Controllers
             {
 				string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
 				
-                ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithServiceId(id);
-				UserResponseModel resp = DB_ServiceProviderActions.GetSubscribedServices(email);
-				foreach(var service in resp.services)
+                ProviderResponseModel provider_model = DB_ServiceProviderActions.GetServiceWithServiceId(id);
+				UserResponseModel user_model = DB_ServiceUserActions.GetSubscribedServices(email);
+				
+				UserServiceResponseModel user_hal = new UserServiceResponseModel();
+				user_hal.service = provider_model.service;
+				
+				foreach(var service in user_model.services)
                 {
 					if (service.id==id)
                     {
-						ps_hal.service.subscribed = true;
+						user_hal.service.subscribed = true;
 						break;
                     }
                 }			
 				
-                resp = Request.CreateResponse<ServiceModel>(HttpStatusCode.OK, ps_hal.service);
+                resp = Request.CreateResponse<ServiceModel>(HttpStatusCode.OK, user_hal.service);
             }
             catch (PS_Exception e)
             {
