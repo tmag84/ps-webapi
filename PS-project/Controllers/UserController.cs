@@ -18,7 +18,7 @@ namespace PS_project.Controllers
     [RoutePrefix(Const_Strings.USER_ROUTE_PREFIX)]
     public class UserController : ApiController
     {
-        private const int DEFAULT_PAGESIZE = 8;        
+        private const int DEFAULT_PAGESIZE = 5;        
 
         [HttpPost, Route("register")]
         public HttpResponseMessage RegisterUser(UserRegistrationModel registration)
