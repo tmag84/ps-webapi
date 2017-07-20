@@ -281,7 +281,19 @@ namespace PS_project.Controllers
             var uriMaker = Request.TryGetUriMakerFor<UserController>();
             try
             {
+				string email = ClaimsHandler.GetUserNameFromClaim(Request.GetRequestContext().Principal as ClaimsPrincipal);
+				
                 ProviderResponseModel ps_hal = DB_ServiceProviderActions.GetServiceWithServiceId(id);
+				UserResponseModel resp = DB_ServiceProviderActions.GetSubscribedServices(email);
+				foreach(var service in resp.services)
+                {
+					if (service.id==id)
+                    {
+						ps_hal.service.subscribed = true;
+						break;
+                    }
+                }			
+				
                 resp = Request.CreateResponse<ServiceModel>(HttpStatusCode.OK, ps_hal.service);
             }
             catch (PS_Exception e)
