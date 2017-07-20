@@ -140,11 +140,12 @@ namespace PS_project.Utils.DB
                     {
                         if (service.id == id)
                         {
-                            return true;
+                            DB_Deletes.DeleteSubscription(con, email, id);
+							break;
                         }
                     }
 
-                    DB_Deletes.DeleteSubscription(con, email, id);
+                    
                     return true;
                 }
             }
