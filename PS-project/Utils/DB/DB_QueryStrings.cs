@@ -33,7 +33,7 @@
         public const string INSERT_SUBSCRIPTION = "insert into Subscriber(user_email,service_id) values(@user_email,@serv_id)";
 
         public const string UPDATE_USER_PASSWORD = "update Users set hashedpassword=@pass where email=@provider_email";
-        public const string UPDATE_SERVICE_INFO = "update service set name=@serv_name,description=@description,contact_number=@c_num,contact_name=@c_name,contact_location=@c_loc where id=@serv_id";
+        public const string UPDATE_SERVICE_INFO = "update service set name=@serv_name,description=@description,contact_number=@c_num,contact_name=@c_name,contact_location=@c_loc where provider_email=@provider_email";
         public const string UPDATE_USER_INFO = "update ServiceUsers set name=@user_name where email=@user_email";
 
         public const string DELETE_NOTICE = "delete from Notice where service_id=@serv_id and id=@notice_id";
