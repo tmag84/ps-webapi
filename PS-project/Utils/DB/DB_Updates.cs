@@ -50,7 +50,7 @@ namespace PS_project.Utils.DB
                 param_con_loc.Value = service.contact_location;
                 cmd.Parameters.Add(param_con_loc);
 
-                SqlParameter param_prov_email = new SqlParameter("@provider_email", System.Data.SqlDbType.Int);
+                SqlParameter param_prov_email = new SqlParameter("@prov_email", System.Data.SqlDbType.VarChar, 100);
                 param_prov_email.Value = service.provider_email;
                 cmd.Parameters.Add(param_prov_email);
 
