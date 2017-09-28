@@ -34,7 +34,7 @@ namespace PS_project.Utils.DB
                 param_serv_name.Value = service.name;
                 cmd.Parameters.Add(param_serv_name);
 				
-				SqlParameter param_description = new SqlParameter("@c_num", System.Data.SqlDbType.VarChar, 400);
+				SqlParameter param_description = new SqlParameter("@description", System.Data.SqlDbType.VarChar, 400);
                 param_description.Value = service.description;
                 cmd.Parameters.Add(param_description);
 
